@@ -8,25 +8,187 @@
   <packaging>pom</packaging>
 
   <name>OPoster</name>
+  <description>OPoster - Scheduling Platform for Social Media</description>
   <!-- FIXME change it to the project's website -->
   <url>https://orienteer.org</url>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
-  </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
+	<scm>
+	    <url>https://github.com/OrienteerBAP/OPoster</url>
+	    <connection>scm:git:ssh://github.com/OrienteerBAP/OPoster.git</connection>
+	    <developerConnection>scm:git:ssh://git@github.com/OrienteerBAP/OPoster.git</developerConnection>
+	    <tag>HEAD</tag>
+	</scm>
+	<issueManagement>
+	    <system>github</system>
+	    <url>https://github.com/OrienteerBAP/OPoster/issues</url>
+	</issueManagement>
+	<distributionManagement>
+	  <snapshotRepository>
+	    <id>ossrh</id>
+	    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	  </snapshotRepository>
+	  <repository>
+	    <id>ossrh</id>
+	    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+	  </repository>
+	</distributionManagement>
+	<developers>
+	    <developer>
+            <id>owner</id>
+            <name>Ilia Naryzhny</name>
+            <email>phantom@ydn.ru</email>
+	    </developer>
+	</developers>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+  	<properties>
+		<orienteer.version>2.0-SNAPSHOT</orienteer.version>
+		<wicket.orientdb.version>2.0-SNAPSHOT</wicket.orientdb.version>
+		<jetty.version>9.4.12.v20180830</jetty.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
+		<wtp.version>none</wtp.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+    	<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+	<repositories>
+		 <repository>
+			 <id>snapshots-repo</id>
+			 <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+             <releases>
+                 <enabled>false</enabled>
+             </releases>
+             <snapshots>
+                 <enabled>true</enabled>
+             </snapshots>
+         </repository>
+     </repositories>
+	<dependencyManagement>
+	  <dependencies>
+	    <dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	      <version>4.11</version>
+	      <scope>test</scope>
+	    </dependency>
+	    <dependency>
+			<groupId>org.orienteer</groupId>
+			<artifactId>orienteer-core</artifactId>
+			<version>${orienteer.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.orienteer</groupId>
+			<artifactId>orienteer-core</artifactId>
+			<version>${orienteer.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ru.ydn.wicket.wicket-orientdb</groupId>
+			<artifactId>wicket-orientdb</artifactId>
+			<version>${wicket.orientdb.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<!--  JUNIT DEPENDENCY FOR TESTING -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>test</scope>
+        </dependency>
+	  </dependencies>
+	</dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.16</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
   <build>
+    <plugins>
+		<plugin>
+               <groupId>org.apache.felix</groupId>
+               <artifactId>maven-bundle-plugin</artifactId>
+               <version>3.0.1</version>
+               <extensions>true</extensions>
+	    </plugin>
+	    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <arguments>-Pskip-integration-tests</arguments>
+                </configuration>
+		    </plugin>
+		    <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.2.0</version>
+                <configuration>
+                    <sourceEncoding>UTF8</sourceEncoding>
+                </configuration>
+		    </plugin>
+		    <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <formats>
+                        <format>html</format>
+                        <format>xml</format>
+                    </formats>
+                    <maxmem>256m</maxmem>
+                    <!-- aggregated reports for multi-module projects -->
+                    <aggregate>true</aggregate>
+                    <check/>
+                </configuration>
+		    </plugin>
+		    <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-eclipse-plugin</artifactId>
+			    <version>2.10</version>
+			    <configuration>
+				    <downloadSources>true</downloadSources>
+				    <wtpversion>${wtp.version}</wtpversion>
+			    </configuration>
+		    </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <configLocation>check_style.xml</configLocation>
+                    <failOnViolation>true</failOnViolation>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>checkstyle</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>    
+    </plugins>
     <pluginManagement>
       <!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
@@ -41,17 +203,45 @@
           <version>3.0.2</version>
         </plugin>
         <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
-        </plugin>
+		    <inherited>true</inherited>
+		    <groupId>org.apache.maven.plugins</groupId>
+		    <artifactId>maven-compiler-plugin</artifactId>
+		    <version>3.8.0</version>
+		    <configuration>
+			    <encoding>UTF-8</encoding>
+			    <showWarnings>true</showWarnings>
+			    <showDeprecation>true</showDeprecation>
+			    <compilerArgs>
+                       <arg>-parameters</arg>
+                   </compilerArgs>
+		    </configuration>
+	    </plugin>
         <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.1</version>
-        </plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>2.22.1</version>
+			<configuration>
+				<systemPropertyVariables>
+					<orienteer.loader.repository.local>${settings.localRepository}</orienteer.loader.repository.local>
+				</systemPropertyVariables>
+				<excludes>
+					<exclude>**/*Slow*</exclude>
+				</excludes>
+			</configuration>
+		</plugin>
         <plugin>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.0.2</version>
-        </plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-jar-plugin</artifactId>
+			<version>3.0.2</version>
+			<configuration>
+				<archive>
+					<manifest>
+						<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+					</manifest>
+				</archive>
+			</configuration>
+		</plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
           <version>2.5.2</version>
@@ -72,7 +262,68 @@
       </plugins>
     </pluginManagement>
   </build>
-<modules>  <module>oposter</module>
-    <module>oposter-war</module>
-  </modules>
+	<modules>  
+		<module>oposter</module>
+		<module>oposter-war</module>
+	</modules>
+	<profiles>
+		<profile> 
+		<id>release</id>
+		<build>
+		    <plugins>
+			<plugin>
+			    <groupId>org.sonatype.plugins</groupId>
+			    <artifactId>nexus-staging-maven-plugin</artifactId>
+			    <version>1.6.7</version>
+			    <extensions>true</extensions>
+			    <configuration>
+				<serverId>ossrh</serverId>
+				<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+				<autoReleaseAfterClose>true</autoReleaseAfterClose>
+			    </configuration>
+			</plugin>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-source-plugin</artifactId>
+			    <version>3.0.0</version>
+			    <executions>
+				<execution>
+				    <id>attach-sources</id>
+				    <goals>
+					<goal>jar-no-fork</goal>
+				    </goals>
+				</execution>
+			    </executions>
+			</plugin>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-javadoc-plugin</artifactId>
+			    <version>2.10.3</version>
+			    <executions>
+				<execution>
+				    <id>attach-javadocs</id>
+				    <goals>
+					<goal>jar</goal>
+				    </goals>
+				</execution>
+			    </executions>
+			</plugin>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-gpg-plugin</artifactId>
+			    <version>1.6</version>
+			    <executions>
+				<execution>
+				    <id>sign-artifacts</id>
+				    <phase>verify</phase>
+				    <goals>
+					<goal>sign</goal>
+				    </goals>
+				</execution>
+			    </executions>
+			</plugin>
+		    </plugins>
+		</build>
+	    </profile>
+	</profiles>
 </project>

@@ -22,6 +22,6 @@ public class TestMyWebApplication
 	@Test
 	public void testWebApplicationClass()
 	{
-	    assertTrue(tester.getApplication() instanceof MyWebApplication);
+	    assertTrue(tester.getApplication() instanceof OPosterWebApplication);
 	}
 }

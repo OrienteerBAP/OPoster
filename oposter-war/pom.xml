@@ -23,10 +23,8 @@
     <groupId>org.orienteer.oposter</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-	<groupId>org.orienteer.oposter</groupId>
 	<artifactId>oposter-war</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
 	<!-- TODO project name  -->
 	<name>oposter-war</name>
 	<!--
@@ -35,97 +33,13 @@
 			<url>company url</url>
 		</organization>
 	-->
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-	<properties>
-		<orienteer.version>2.0-SNAPSHOT</orienteer.version>
-		<wicket.orientdb.version>2.0-SNAPSHOT</wicket.orientdb.version>
-		<jetty.version>9.4.12.v20180830</jetty.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
-		<wtp.version>none</wtp.version>
-	</properties>
+
 	<dependencies>
 		<dependency>
-			<groupId>org.orienteer</groupId>
-			<artifactId>orienteer-core</artifactId>
-			<version>${orienteer.version}</version>
+			<groupId>org.orienteer.oposter</groupId>
+			<artifactId>oposter</artifactId>
+			<version>${project.version}</version>
 		</dependency>
-        <!--<dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-architect</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-        <!--<dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-birt</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-        <!-- <dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-bpm</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-        <!--<dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-camel</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-        <!-- <dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-devutils</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-        <!-- <dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-etl</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-	<!-- <dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-graph</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-        <!-- <dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-logger-server</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-        <!-- <dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-mail</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-        <!-- <dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-object</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-        <!-- <dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-pages</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-        <!-- <dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-pivottable</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-        <!-- <dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-taucharts</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
-        <!-- <dependency>
-            <groupId>org.orienteer</groupId>
-            <artifactId>orienteer-users</artifactId>
-            <version>${orienteer.version}</version>
-        </dependency>-->
 		<!-- ORIENTEER TESTS for TESTING -->
 		<dependency>
 			<groupId>org.orienteer</groupId>

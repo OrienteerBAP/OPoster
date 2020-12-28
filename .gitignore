@@ -22,5 +22,5 @@ databases/
 *.iml
 *.log
 *.tar.gz
-orienteer.properties
-orienteer-test.properties
+-orienteer.properties
+-orienteer-test.properties

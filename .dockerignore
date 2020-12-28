@@ -14,7 +14,6 @@
 build.cmd
 **/databases/
 /Orienteer/
-oposter-war/
 **/.idea/
 **/*.iml
 **/*.log

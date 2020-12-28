@@ -23,9 +23,7 @@
     <groupId>org.orienteer.oposter</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-	<groupId>org.orienteer.oposter</groupId>
 	<artifactId>oposter</artifactId>
-	<version>1.0-SNAPSHOT</version>
 	<!-- TODO project name  -->
 	<name>oposter</name>
 	<!--
@@ -34,26 +32,11 @@
 			<url>company url</url>
 		</organization>
 	-->
-	<licenses>
-		<license>
-			<name>The Apache Software License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-	<properties>
-		<orienteer.version>2.0-SNAPSHOT</orienteer.version>
-		<wicket.orientdb.version>2.0-SNAPSHOT</wicket.orientdb.version>
-		<jetty.version>9.4.12.v20180830</jetty.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<!-- allowed values: R7, 1.0, 1.5, 2.0 or none -->
-		<wtp.version>none</wtp.version>
-	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.orienteer</groupId>
 			<artifactId>orienteer-core</artifactId>
-			<version>${orienteer.version}</version>
 		</dependency>
         <!--<dependency>
             <groupId>org.orienteer</groupId>
@@ -129,14 +112,12 @@
 		<dependency>
 			<groupId>org.orienteer</groupId>
 			<artifactId>orienteer-core</artifactId>
-			<version>${orienteer.version}</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>ru.ydn.wicket.wicket-orientdb</groupId>
 			<artifactId>wicket-orientdb</artifactId>
-			<version>${wicket.orientdb.version}</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
@@ -144,13 +125,11 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
             <scope>test</scope>
         </dependency>
 	</dependencies>
@@ -238,8 +217,6 @@
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
-			<!--
-			//Uncomment for quick inplace tests
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
@@ -255,7 +232,7 @@
                         <supportedPackaging>jar</supportedPackaging>
                     </supportedPackagings>
 					<webApp>
-						<descriptor>src/main/webapp/WEB-INF/web.xml</descriptor>
+						<descriptor>../oposter-war/src/main/webapp/WEB-INF/web.xml</descriptor>
 						<resourceBase>src/main/resources</resourceBase>
 						<contextPath>/</contextPath>
 						<containerIncludeJarPattern>^$</containerIncludeJarPattern>
@@ -276,7 +253,6 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			-->
 		</plugins>
 	</build>
 

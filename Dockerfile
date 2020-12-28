@@ -5,5 +5,5 @@ RUN mvn -Ddocker-build clean package
 
 
 FROM orienteer/orienteer:latest
-COPY --from=builder /tmp/src/target/oposter-war.war ${JETTY_BASE}/webapps/ROOT.war
+COPY --from=builder /tmp/src/oposter-war/target/oposter-war.war ${JETTY_BASE}/webapps/ROOT.war
 COPY --from=builder /tmp/src/orienteer.properties ${ORIENTEER_HOME}
