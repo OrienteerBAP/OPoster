@@ -28,6 +28,6 @@ public class TestModule
 	    assertNotNull(app);
 	    IOrienteerModule module = app.getModuleByName("oposter");
 	    assertNotNull(module);
-	    assertTrue(module instanceof Module);
+	    assertTrue(module instanceof OPosterModule);
 	}
 }
