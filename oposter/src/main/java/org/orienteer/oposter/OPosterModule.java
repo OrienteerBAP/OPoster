@@ -9,6 +9,8 @@ import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IContentPlan;
 import org.orienteer.oposter.model.IPlatformApp;
+import org.orienteer.oposter.telegram.ITelegramBot;
+import org.orienteer.oposter.telegram.ITelegramChannel;
 
 import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.record.impl.ODocument;
@@ -31,6 +33,20 @@ public class OPosterModule extends AbstractOrienteerModule{
 							 IContent.class,
 							 IChannel.class,
 							 IPlatformApp.class);
+		DAO.describe(helper, ITelegramChannel.class, 
+							 ITelegramBot.class);
+		
+		helper.oClass("OFunction")
+					.oDocument("name", "Scheduler")
+					.field("language", "nashorn")
+					.field("code", "org.orienteer.oposter.OPScheduler.getInstance().tick()")
+					.saveDocument();
+		ODocument schedulerFunc = helper.getODocument();
+		helper.oClass("OSchedule")
+					.oDocument("name", "OPoster")
+					.field("rule", "0 * * * * ?")
+					.field("function", schedulerFunc)
+					.saveDocument();
 		return null;
 	}
 	

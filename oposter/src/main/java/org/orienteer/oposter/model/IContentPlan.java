@@ -2,6 +2,7 @@ package org.orienteer.oposter.model;
 
 import java.util.List;
 
+import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAOField;
 import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
@@ -16,7 +17,7 @@ public interface IContentPlan {
 	public String getName();
 	public void setName(String name);
 	
-	@DAOField(inverse = "contentPlan")
+	@DAOField(inverse = "contentPlan", visualization = UIVisualizersRegistry.VISUALIZER_TABLE)
 	public List<IContent> getContent();
 	public void setContent(List<IContent> content);
 }

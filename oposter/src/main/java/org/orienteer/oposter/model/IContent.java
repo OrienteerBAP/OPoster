@@ -27,6 +27,14 @@ public interface IContent {
 	public Date getWhen();
 	public void setWhen(Date value);
 	
+	@DAOField(defaultValue = "false")
+	public Boolean isPublished();
+	public void setPublished(Boolean published);
+	
+	public default void published() {
+		setPublished(true);
+	}
+	
 	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_SUGGEST, inverse = "content")
 	public List<IChannel> getChannels();
 	public void setChannels(List<IChannel> value);

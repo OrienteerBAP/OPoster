@@ -17,11 +17,16 @@ public interface IPlatformApp {
 	public String getName();
 	public void setName(String name);
 	
+	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TEXTAREA)
 	public String getDescription();
 	public void setDescription(String value);
 	
 	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TABLE, inverse = "platformApp")
 	public List<IChannel> getChannels();
 	public void setChannels(List<IChannel> value);
+	
+	public default boolean send (IChannel channel, IContent content) {
+		throw new IllegalStateException("Child classes should override this default method");
+	}
 	
 }

@@ -38,6 +38,11 @@
 			<groupId>org.orienteer</groupId>
 			<artifactId>orienteer-core</artifactId>
 		</dependency>
+		<dependency>
+		   <groupId>com.github.pengrad</groupId>
+		   <artifactId>java-telegram-bot-api</artifactId>
+		   <version>5.0.0</version>
+		</dependency>
         <!--<dependency>
             <groupId>org.orienteer</groupId>
             <artifactId>orienteer-architect</artifactId>
