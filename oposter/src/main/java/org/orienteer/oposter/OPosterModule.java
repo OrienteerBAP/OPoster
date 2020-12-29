@@ -15,7 +15,10 @@ import org.orienteer.oposter.telegram.ITelegramBot;
 import org.orienteer.oposter.telegram.ITelegramChannel;
 
 import com.orientechnologies.orient.core.db.ODatabaseSession;
+import com.orientechnologies.orient.core.db.OrientDBInternal;
 import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.orientechnologies.orient.core.schedule.OScheduledEvent;
+import com.orientechnologies.orient.core.schedule.OScheduler;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 
 /**
@@ -63,6 +66,16 @@ public class OPosterModule extends AbstractOrienteerModule{
 		super.onInitialize(app, db);
 		app.mountPackage("org.orienteer.oposter.web");
 		app.getUIVisualizersRegistry().registerUIComponentFactory(new AttachmentsVisualizer());
+		
+		
+		//Kicking-off scheduled events.
+		//TODO: remove after fixing issue in OrientDB: https://github.com/orientechnologies/orientdb/issues/9500
+		String dbName = db.getName();
+		OrientDBInternal orientDbInternal = OrientDBInternal.extract(app.getServer().getContext());
+		db.browseClass(OScheduledEvent.CLASS_NAME)
+								.forEach(d -> {
+									new OScheduledEvent(d).schedule(dbName, "admin", orientDbInternal);
+								});
 	}
 	
 	@Override
