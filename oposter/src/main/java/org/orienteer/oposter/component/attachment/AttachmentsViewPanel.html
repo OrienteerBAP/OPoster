@@ -1,0 +1,20 @@
+<wicket:panel xmlns:wicket="http://www.w3.org/1999/xhtml">
+    <div wicket:id="carousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li wicket:id="carouselIndicators"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div wicket:id="carouselImagesList" class="carousel-item">
+                <img wicket:id="image" class="d-block w-100">
+            </div>
+        </div>
+        <a wicket:id="prevButton" class="carousel-control-prev" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a wicket:id="nextButton" class="carousel-control-next" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</wicket:panel>

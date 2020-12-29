@@ -1,10 +1,12 @@
 package org.orienteer.oposter;
 
 import org.orienteer.core.OrienteerWebApplication;
+import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
 import org.orienteer.core.module.AbstractOrienteerModule;
 import org.orienteer.core.module.IOrienteerModule;
 import org.orienteer.core.util.OSchemaHelper;
+import org.orienteer.oposter.component.attachment.AttachmentsVisualizer;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IContentPlan;
@@ -22,7 +24,7 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
 public class OPosterModule extends AbstractOrienteerModule{
 
 	protected OPosterModule() {
-		super("oposter", 1);
+		super("oposter", 2);
 	}
 	
 	@Override
@@ -47,6 +49,7 @@ public class OPosterModule extends AbstractOrienteerModule{
 					.field("rule", "0 * * * * ?")
 					.field("function", schedulerFunc)
 					.saveDocument();
+		
 		return null;
 	}
 	
@@ -59,6 +62,7 @@ public class OPosterModule extends AbstractOrienteerModule{
 	public void onInitialize(OrienteerWebApplication app, ODatabaseSession db) {
 		super.onInitialize(app, db);
 		app.mountPackage("org.orienteer.oposter.web");
+		app.getUIVisualizersRegistry().registerUIComponentFactory(new AttachmentsVisualizer());
 	}
 	
 	@Override

@@ -7,6 +7,7 @@ import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAOField;
 import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.oposter.component.attachment.AttachmentsVisualizer;
 
 import com.google.inject.ProvidedBy;
 import com.orientechnologies.orient.core.metadata.schema.OType;
@@ -42,6 +43,11 @@ public interface IContent {
 	@DAOField(inverse = "content")
 	public IContentPlan getContentPlan();
 	public void setContentPlan(IContentPlan value);
+
+	@DAOField(inverse = "content", visualization = AttachmentsVisualizer.NAME)
+	public List<IImageAttachment> getImages();
+	public void setImages(List<IImageAttachment> value);
+	
 	
 	
 }

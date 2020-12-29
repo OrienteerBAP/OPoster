@@ -1,0 +1,11 @@
+.delete-attachment {
+    opacity: 0.5 !important;
+}
+
+.file-upload-wrapper {
+    cursor: pointer;
+}
+
+.file-upload-wrapper:hover {
+    opacity: 0.7;
+}

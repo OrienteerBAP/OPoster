@@ -8,7 +8,7 @@ import org.orienteer.oposter.model.IChannel;
 import com.google.inject.ProvidedBy;
 
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = ITelegramChannel.CLASS_NAME)
+@DAOOClass(value = ITelegramChannel.CLASS_NAME, orderOffset = 100)
 public interface ITelegramChannel extends IChannel {
 	public static final String CLASS_NAME = "OPTelegramChannel";
 	

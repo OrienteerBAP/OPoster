@@ -15,7 +15,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.SendMessage;
 
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = ITelegramBot.CLASS_NAME, orderOffset = 50)
+@DAOOClass(value = ITelegramBot.CLASS_NAME, orderOffset = 100)
 public interface ITelegramBot extends IPlatformApp {
 	public static final String CLASS_NAME = "OPTelegramBot";
 	

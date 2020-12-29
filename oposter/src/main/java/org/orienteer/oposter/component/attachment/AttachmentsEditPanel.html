@@ -1,0 +1,20 @@
+<wicket:panel xmlns:wicket="http://www.w3.org/1999/xhtml">
+    <div class="container">
+        <div class="row" wicket:id="attachments">
+            <div wicket:id="attachment"></div>
+        </div>
+
+        <div class="row mt-2">
+            <div wicket:id="uploadWrapper"  class="file-upload-wrapper text-center mx-auto">
+                <input class="d-none" wicket:id="uploadImages" type="file"/>
+                <span wicket:id="label"></span>
+                <i class="fa fa-upload fa-3x d-block" aria-hidden="true"></i>
+                <div>
+                    <strong>
+                        <wicket:message key="panel.attachment.upload"></wicket:message>
+                    </strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</wicket:panel>
