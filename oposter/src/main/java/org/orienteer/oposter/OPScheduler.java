@@ -15,9 +15,11 @@ import com.google.inject.Singleton;
 import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.sql.executor.OResultSet;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.ydn.wicket.wicketorientdb.utils.DBClosure;
 
 @Singleton
+@Slf4j
 public class OPScheduler {
 	
 	@Inject
@@ -34,7 +36,11 @@ public class OPScheduler {
 			protected Boolean execute(ODatabaseSession db) {
 				ThreadContext.setApplication(OrienteerWebApplication.lookupApplication());
 				try {
-					tick(db);
+					try {
+						tick(db);
+					} catch (Throwable e) {
+						log.error("Problem in OPoster scheduler", e);
+					}
 					return true;
 				} finally {
 					ThreadContext.detach();
@@ -43,7 +49,7 @@ public class OPScheduler {
 		}.execute();
 	}
 	
-	protected void tick(ODatabaseSession db) {
+	protected void tick(ODatabaseSession db) throws Throwable {
 		List<IContent> contentToSend  = posterDAOProvider.get().findContentToSend();
 		if(contentToSend!=null && !contentToSend.isEmpty()) {
 			for (IContent content : contentToSend) {
