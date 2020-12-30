@@ -20,6 +20,7 @@ public interface IChannel {
 	public String getUrl();
 	public void setUrl(String value);
 	
+	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TEXTAREA)
 	public String getDescription();
 	public void setDescription(String value);
 	

@@ -43,6 +43,11 @@
 		   <artifactId>java-telegram-bot-api</artifactId>
 		   <version>5.0.0</version>
 		</dependency>
+		<dependency>
+		    <groupId>com.restfb</groupId>
+		    <artifactId>restfb</artifactId>
+		    <version>3.13.0</version>
+		</dependency>
         <!--<dependency>
             <groupId>org.orienteer</groupId>
             <artifactId>orienteer-architect</artifactId>

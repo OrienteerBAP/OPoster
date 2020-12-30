@@ -70,12 +70,6 @@
 	<dependencyManagement>
 	  <dependencies>
 	    <dependency>
-	      <groupId>junit</groupId>
-	      <artifactId>junit</artifactId>
-	      <version>4.11</version>
-	      <scope>test</scope>
-	    </dependency>
-	    <dependency>
 			<groupId>org.orienteer</groupId>
 			<artifactId>orienteer-core</artifactId>
 			<version>${orienteer.version}</version>
