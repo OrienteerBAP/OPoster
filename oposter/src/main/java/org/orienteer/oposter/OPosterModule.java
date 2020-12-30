@@ -1,10 +1,15 @@
 package org.orienteer.oposter;
 
+import org.apache.wicket.model.ResourceModel;
 import org.orienteer.core.OrienteerWebApplication;
+import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
 import org.orienteer.core.module.AbstractOrienteerModule;
 import org.orienteer.core.module.IOrienteerModule;
+import org.orienteer.core.module.PerspectivesModule.OPerspective;
+import org.orienteer.core.module.PerspectivesModule.OPerspectiveItem;
+import org.orienteer.core.util.CommonUtils;
 import org.orienteer.core.util.OSchemaHelper;
 import org.orienteer.oposter.component.attachment.AttachmentsVisualizer;
 import org.orienteer.oposter.facebook.IFacebookApp;
@@ -29,7 +34,7 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
 public class OPosterModule extends AbstractOrienteerModule{
 
 	protected OPosterModule() {
-		super("oposter", 3);
+		super("oposter", 5);
 	}
 	
 	@Override
@@ -56,6 +61,7 @@ public class OPosterModule extends AbstractOrienteerModule{
 					.field("rule", "0 * * * * ?")
 					.field("function", schedulerFunc)
 					.saveDocument();
+		installPerspective(helper);
 		
 		return null;
 	}
@@ -63,6 +69,46 @@ public class OPosterModule extends AbstractOrienteerModule{
 	@Override
 	public void onUpdate(OrienteerWebApplication app, ODatabaseSession db, int oldVersion, int newVersion) {
 		onInstall(app, db);
+	}
+	
+	protected void installPerspective(OSchemaHelper helper) {
+		helper.oClass(OPerspective.CLASS_NAME)
+				.oDocument(OPerspective.PROP_ALIAS, "oposter")
+					.field(OPerspective.PROP_NAME, CommonUtils.toMap("en", "OPoster"))
+					.field(OPerspective.PROP_ICON, FAIconType.bolt.name())
+					.field(OPerspective.PROP_HOME_URL, "/browse/"+IContentPlan.CLASS_NAME)
+					.saveDocument();
+		ODocument perspective = helper.getODocument();
+		
+		helper.oClass(OPerspectiveItem.CLASS_NAME);
+		
+		helper.oDocument(OPerspectiveItem.PROP_ALIAS, "content_plans")
+					.field(OPerspectiveItem.PROP_NAME, CommonUtils.toMap("en", "Content Plans"))
+					.field(OPerspectiveItem.PROP_ICON, FAIconType.bolt.name())
+					.field(OPerspectiveItem.PROP_URL, "/browse/"+IContentPlan.CLASS_NAME)
+					.field(OPerspectiveItem.PROP_PERSPECTIVE, perspective)
+					.saveDocument();
+		
+		helper.oDocument(OPerspectiveItem.PROP_ALIAS, "contens")
+					.field(OPerspectiveItem.PROP_NAME, CommonUtils.toMap("en", "Content"))
+					.field(OPerspectiveItem.PROP_ICON, FAIconType.envelope.name())
+					.field(OPerspectiveItem.PROP_URL, "/browse/"+IContent.CLASS_NAME)
+					.field(OPerspectiveItem.PROP_PERSPECTIVE, perspective)
+					.saveDocument();
+		
+		helper.oDocument(OPerspectiveItem.PROP_ALIAS, "platform_appss")
+					.field(OPerspectiveItem.PROP_NAME, CommonUtils.toMap("en", "Platform Apps"))
+					.field(OPerspectiveItem.PROP_ICON, FAIconType.rocket.name())
+					.field(OPerspectiveItem.PROP_URL, "/browse/"+IPlatformApp.CLASS_NAME)
+					.field(OPerspectiveItem.PROP_PERSPECTIVE, perspective)
+					.saveDocument();
+		
+		helper.oDocument(OPerspectiveItem.PROP_ALIAS, "channels")
+					.field(OPerspectiveItem.PROP_NAME, CommonUtils.toMap("en", "Channels"))
+					.field(OPerspectiveItem.PROP_ICON, FAIconType.link.name())
+					.field(OPerspectiveItem.PROP_URL, "/browse/"+IChannel.CLASS_NAME)
+					.field(OPerspectiveItem.PROP_PERSPECTIVE, perspective)
+					.saveDocument();
 	}
 	
 	@Override
