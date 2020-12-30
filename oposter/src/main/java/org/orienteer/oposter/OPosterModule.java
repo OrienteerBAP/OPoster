@@ -34,7 +34,7 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
 public class OPosterModule extends AbstractOrienteerModule{
 
 	protected OPosterModule() {
-		super("oposter", 5);
+		super("oposter", 6);
 	}
 	
 	@Override

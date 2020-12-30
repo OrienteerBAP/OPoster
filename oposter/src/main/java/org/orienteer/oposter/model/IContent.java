@@ -13,7 +13,9 @@ import com.google.inject.ProvidedBy;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IContent.CLASS_NAME, parentProperty = "contentPlan")
+@DAOOClass(value = IContent.CLASS_NAME, 
+		   parentProperty = "contentPlan",
+		   displayable = {"title", "when", "published", "created", "contentPlan"})
 public interface IContent {
 	public static final String CLASS_NAME = "OPContent";
 	
@@ -31,6 +33,11 @@ public interface IContent {
 	@DAOField(defaultValue = "false")
 	public Boolean isPublished();
 	public void setPublished(Boolean published);
+	
+	@DAOField(type = OType.DATETIME, defaultValue = "sysdate()", readOnly = true)
+	public Date getCreated();
+	public void setCreated(Date value);
+	
 	
 	public default void published() {
 		setPublished(true);

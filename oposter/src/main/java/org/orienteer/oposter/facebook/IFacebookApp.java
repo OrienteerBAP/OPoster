@@ -1,6 +1,7 @@
 package org.orienteer.oposter.facebook;
 
 import java.util.Date;
+import java.util.List;
 
 import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
@@ -10,10 +11,12 @@ import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
+import org.orienteer.oposter.model.IImageAttachment;
 import org.orienteer.oposter.model.IPlatformApp;
 
 import com.google.inject.ProvidedBy;
 import com.orientechnologies.orient.core.metadata.schema.OType;
+import com.restfb.BinaryAttachment;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.FacebookClient.AccessToken;
@@ -48,7 +51,16 @@ public interface IFacebookApp extends IPlatformApp{
 		if(channel instanceof IFacebookPage) {
 			IFacebookPage fp = (IFacebookPage) channel;
 			FacebookClient facebookClient = getFacebookClient().createClientWithAccessToken(fp.getPageAccessToken());
-			facebookClient.publish(fp.getConnection(), GraphResponse.class, Parameter.with("message", content.getContent()));
+			List<IImageAttachment> images = content.getImages();
+			if(images==null || images.isEmpty()) {
+				facebookClient.publish(fp.getPageId()+"/feed", GraphResponse.class, Parameter.with("message", content.getContent()));
+			} else {
+				IImageAttachment image = images.get(0);
+				facebookClient.publish(fp.getPageId()+"/photos", 
+									   GraphResponse.class,
+									   BinaryAttachment.with(image.getName(), image.getData(), image.detectContentType()),
+									   Parameter.with("message", content.getContent()));
+			}
 		}
 		return false;
 	}

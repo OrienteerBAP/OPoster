@@ -10,7 +10,9 @@ import org.orienteer.core.dao.ODocumentWrapperProvider;
 import com.google.inject.ProvidedBy;
 
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IPlatformApp.CLASS_NAME, isAbstract = true)
+@DAOOClass(value = IPlatformApp.CLASS_NAME,
+           isAbstract = true,
+           displayable = {"name", "description"})
 public interface IPlatformApp {
 	public static final String CLASS_NAME = "OPPlatformApp";
 	

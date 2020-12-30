@@ -10,7 +10,10 @@ import org.orienteer.core.dao.ODocumentWrapperProvider;
 import com.google.inject.ProvidedBy;
 
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IChannel.CLASS_NAME, isAbstract = true, parentProperty = "platformApp")
+@DAOOClass(value = IChannel.CLASS_NAME, 
+           isAbstract = true,
+           parentProperty = "platformApp",
+           displayable = {"name", "url", "description", "platformApp"})
 public interface IChannel {
 	public static final String CLASS_NAME = "OPChannel";
 	

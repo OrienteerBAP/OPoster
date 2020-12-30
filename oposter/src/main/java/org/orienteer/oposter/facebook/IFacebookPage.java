@@ -14,8 +14,8 @@ public interface IFacebookPage extends IChannel{
 	public static final String CLASS_NAME = "OPFacebookChannel";
 	
 	@DAOField(notNull = true)
-	public String getConnection();
-	public void setConnection(String value);
+	public String getPageId();
+	public void setPageId(String value);
 	
 	@DAOField(notNull = true, visualization = UIVisualizersRegistry.VISUALIZER_PASSWORD)
 	public String getPageAccessToken();

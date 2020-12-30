@@ -73,7 +73,8 @@ public class AttachmentsEditPanel extends FormComponentPanel<List<OIdentifiable>
         attachments.add(IImageAttachment.create(DAO.provide(IContent.class, contentModel.getObject()), 
         										fu.getClientFileName(), 
         										getImage(fu), 
-        										lastOrder + (i + 1) * 10));
+        										lastOrder + (i + 1) * 10,
+        										fu.getContentType()));
       }
     }
     attachmentsForDelete.getObject().forEach(a -> {
