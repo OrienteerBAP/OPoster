@@ -76,6 +76,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.orienteer</groupId>
+			<artifactId>orienteer-logger-server</artifactId>
+			<version>${orienteer.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.orienteer</groupId>
 			<artifactId>orienteer-core</artifactId>
 			<version>${orienteer.version}</version>
 			<type>test-jar</type>

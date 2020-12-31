@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.wicket.ThreadContext;
 import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.dao.DAO;
+import org.orienteer.logger.OLogger;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IOPosterDAO;
@@ -40,6 +41,7 @@ public class OPScheduler {
 						tick(db);
 					} catch (Throwable e) {
 						log.error("Problem in OPoster scheduler", e);
+						OLogger.log(e);
 					}
 					return true;
 				} finally {
@@ -56,7 +58,12 @@ public class OPScheduler {
 				List<IChannel> channels = content.getChannels();
 				if(channels!=null && !channels.isEmpty()) {
 					for (IChannel channel : channels) {
-						channel.send(content);
+						try {
+							channel.send(content);
+						} catch (Throwable e) {
+							log.error("Problem during sending to "+channel.getName(), e);
+							OLogger.log(e);
+						}
 					}
 					content.published();
 					DAO.save(content);
