@@ -62,7 +62,7 @@ public class OPScheduler {
 							channel.send(content);
 						} catch (Throwable e) {
 							log.error("Problem during sending to "+channel.getName(), e);
-							OLogger.log(e);
+							OLogger.log(e, DAO.asDocument(channel).getIdentity().toString());
 						}
 					}
 					content.published();
