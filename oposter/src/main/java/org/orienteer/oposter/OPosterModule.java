@@ -5,6 +5,7 @@ import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
+import org.orienteer.core.method.OMethodsManager;
 import org.orienteer.core.module.AbstractOrienteerModule;
 import org.orienteer.core.module.IOrienteerModule;
 import org.orienteer.core.module.PerspectivesModule.OPerspective;
@@ -117,6 +118,9 @@ public class OPosterModule extends AbstractOrienteerModule{
 		app.mountPackage("org.orienteer.oposter.web");
 		app.getUIVisualizersRegistry().registerUIComponentFactory(new AttachmentsVisualizer());
 		
+		OMethodsManager.get().addModule(OPosterModule.class);
+		OMethodsManager.get().reload();
+		
 		
 		//Kicking-off scheduled events.
 		//TODO: remove after fixing issue in OrientDB: https://github.com/orientechnologies/orientdb/issues/9500
@@ -132,6 +136,8 @@ public class OPosterModule extends AbstractOrienteerModule{
 	public void onDestroy(OrienteerWebApplication app, ODatabaseSession db) {
 		super.onDestroy(app, db);
 		app.unmountPackage("org.orienteer.oposter.web");
+		OMethodsManager.get().removeModule(OPosterModule.class);
+		OMethodsManager.get().reload();
 	}
 	
 }

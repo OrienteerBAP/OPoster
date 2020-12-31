@@ -2,11 +2,22 @@ package org.orienteer.oposter.model;
 
 import java.util.List;
 
+import org.apache.wicket.feedback.FeedbackMessage;
+import org.apache.wicket.model.Model;
+import org.orienteer.core.component.BootstrapType;
+import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
+import org.orienteer.core.dao.DAO;
 import org.orienteer.core.dao.DAOField;
 import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.method.IMethodContext;
+import org.orienteer.core.method.OFilter;
+import org.orienteer.core.method.OMethod;
+import org.orienteer.core.method.filters.PlaceFilter;
+import org.orienteer.core.method.filters.WidgetTypeFilter;
 
+import com.google.common.base.Throwables;
 import com.google.inject.ProvidedBy;
 
 @ProvidedBy(ODocumentWrapperProvider.class)
@@ -39,6 +50,30 @@ public interface IChannel {
 		IPlatformApp  platformApp = getPlatformApp();
 		if(platformApp!=null) platformApp.send(this, content);
 		else throw new IllegalStateException("Please define Platform App first");
+	}
+	
+	@OMethod(
+			titleKey = "channel.testsend", 
+			order=10,bootstrap=BootstrapType.SUCCESS,icon = FAIconType.play,
+			filters={
+					@OFilter(fClass = PlaceFilter.class, fData = "STRUCTURE_TABLE"),
+					@OFilter(fClass = WidgetTypeFilter.class, fData = "parameters"),
+			}
+	)
+	public default void testSend(IMethodContext ctx) {
+		IPlatformApp platformApp = getPlatformApp();
+		if(platformApp==null) ctx.showFeedback(FeedbackMessage.ERROR, "channel.error.noplatformapp", null);
+		else {
+			try {
+				IContent content = DAO.create(IContent.class);
+				content.setTitle("Test Content for channel "+getName());
+				content.setContent("This is test content for channel "+getName());
+				platformApp.send(this, content);
+				ctx.showFeedback(FeedbackMessage.INFO, "channel.info.testwassent", null);
+			} catch (Exception e) {
+				ctx.showFeedback(FeedbackMessage.ERROR, "content.error.cantsend", Model.of(Throwables.getStackTraceAsString(e)));
+			}
+		}
 	}
 	
 }
