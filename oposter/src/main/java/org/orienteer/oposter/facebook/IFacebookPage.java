@@ -11,11 +11,16 @@ import com.google.inject.ProvidedBy;
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = IFacebookPage.CLASS_NAME, orderOffset = 100)
 public interface IFacebookPage extends IChannel{
-	public static final String CLASS_NAME = "OPFacebookChannel";
+	public static final String CLASS_NAME = "OPFacebookPage";
 	
 	@DAOField(notNull = true)
-	public String getPageId();
-	public void setPageId(String value);
+	public Long getPageId();
+	public void setPageId(Long value);
+	
+	public default String getPageIdAsString() {
+		Long pageId = getPageId();
+		return pageId!=null?Long.toUnsignedString(pageId):null;
+	}
 	
 	@DAOField(notNull = true, visualization = UIVisualizersRegistry.VISUALIZER_PASSWORD)
 	public String getPageAccessToken();

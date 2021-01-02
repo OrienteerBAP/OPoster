@@ -21,6 +21,8 @@ import org.orienteer.oposter.model.IContentPlan;
 import org.orienteer.oposter.model.IPlatformApp;
 import org.orienteer.oposter.telegram.ITelegramBot;
 import org.orienteer.oposter.telegram.ITelegramChannel;
+import org.orienteer.oposter.vk.IVkApp;
+import org.orienteer.oposter.vk.IVkWall;
 
 import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.db.OrientDBInternal;
@@ -35,7 +37,7 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
 public class OPosterModule extends AbstractOrienteerModule{
 
 	protected OPosterModule() {
-		super("oposter", 6);
+		super("oposter", 7);
 	}
 	
 	@Override
@@ -50,6 +52,8 @@ public class OPosterModule extends AbstractOrienteerModule{
 							 ITelegramBot.class);
 		DAO.describe(helper, IFacebookPage.class,
 							 IFacebookApp.class);
+		DAO.describe(helper, IVkWall.class,
+							 IVkApp.class);
 		
 		helper.oClass("OFunction")
 					.oDocument("name", "Scheduler")

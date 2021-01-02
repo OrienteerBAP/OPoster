@@ -31,6 +31,7 @@ public interface IChannel {
 	public String getName();
 	public void setName(String name);
 	
+	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_URL_LINK)
 	public String getUrl();
 	public void setUrl(String value);
 	

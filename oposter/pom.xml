@@ -52,6 +52,11 @@
 		    <artifactId>restfb</artifactId>
 		    <version>3.13.0</version>
 		</dependency>
+		<dependency>
+		  <groupId>com.vk.api</groupId>
+		  <artifactId>sdk</artifactId>
+		  <version>1.0.8</version>
+		</dependency>
         <!--<dependency>
             <groupId>org.orienteer</groupId>
             <artifactId>orienteer-architect</artifactId>
