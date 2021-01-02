@@ -51,11 +51,10 @@ public interface IFacebookApp extends IPlatformApp{
 		if(channel instanceof IFacebookPage) {
 			IFacebookPage fp = (IFacebookPage) channel;
 			FacebookClient facebookClient = getFacebookClient().createClientWithAccessToken(fp.getPageAccessToken());
-			List<IImageAttachment> images = content.getImages();
-			if(images==null || images.isEmpty()) {
+			if(!content.hasImages()) {
 				facebookClient.publish(fp.getPageIdAsString()+"/feed", GraphResponse.class, Parameter.with("message", content.getContent()));
 			} else {
-				IImageAttachment image = images.get(0);
+				IImageAttachment image = content.getImages().get(0);
 				facebookClient.publish(fp.getPageIdAsString()+"/photos", 
 									   GraphResponse.class,
 									   BinaryAttachment.with(image.getName(), image.getData(), image.detectContentType()),

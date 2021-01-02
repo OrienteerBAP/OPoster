@@ -16,11 +16,21 @@ public interface IVkWall extends IChannel {
 	public Long getOwnerId();
 	public void setOwnerId(Long value);
 	
+	@DAOField(defaultValue = "true")
+	public Boolean isCommunity();
+	public void setCommunity(Boolean value);
+	
 	public Long getUserId();
 	public void setUserId(Long value);
 	
 	public String getUserAccessKey();
 	public void setUserAccessKey(String value);
+	
+	public default Long getAdjustedOwnerId() {
+		Long ownerId = getOwnerId();
+		if(ownerId!=null && Boolean.TRUE.equals(isCommunity())) return -ownerId;
+		else return ownerId;
+	}
 	
 	public default Long getEffectiveUserId() {
 		Long userId = getUserId();

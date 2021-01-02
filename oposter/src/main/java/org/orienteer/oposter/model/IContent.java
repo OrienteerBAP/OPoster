@@ -1,5 +1,6 @@
 package org.orienteer.oposter.model;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -64,6 +65,11 @@ public interface IContent {
 	@DAOField(inverse = "content", visualization = AttachmentsVisualizer.NAME)
 	public List<IImageAttachment> getImages();
 	public void setImages(List<IImageAttachment> value);
+	
+	public default boolean hasImages() {
+		List<IImageAttachment> images = getImages();
+		return images!=null && !images.isEmpty();
+	}
 	
 	@OMethod(
 			titleKey = "content.sendnow", 

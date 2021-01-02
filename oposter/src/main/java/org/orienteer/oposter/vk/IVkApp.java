@@ -1,5 +1,8 @@
 package org.orienteer.oposter.vk;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.wicket.MetaDataKey;
 import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.dao.DAO;
@@ -9,17 +12,20 @@ import org.orienteer.core.dao.ODocumentWrapperProvider;
 import org.orienteer.logger.OLogger;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
+import org.orienteer.oposter.model.IImageAttachment;
 import org.orienteer.oposter.model.IPlatformApp;
 
 import com.google.inject.ProvidedBy;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
-import com.vk.api.sdk.exceptions.ClientException;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
+import com.vk.api.sdk.objects.photos.responses.GetWallUploadServerResponse;
+import com.vk.api.sdk.objects.photos.responses.SaveWallPhotoResponse;
+import com.vk.api.sdk.objects.photos.responses.WallUploadResponse;
+import com.vk.api.sdk.queries.photos.PhotosGetWallUploadServerQuery;
+import com.vk.api.sdk.queries.photos.PhotosSaveWallPhotoQuery;
 import com.vk.api.sdk.queries.wall.WallPostQuery;
-
-import lombok.extern.slf4j.Slf4j;
 
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = IVkApp.CLASS_NAME, orderOffset = 100)
@@ -58,12 +64,30 @@ public interface IVkApp extends IPlatformApp {
 			UserActor userActor = new UserActor(wall.getEffectiveUserId().intValue(), wall.getEffectiveAccessKey());
 			try {
 				WallPostQuery post = vk.wall().post(userActor);
-				if(wall.getOwnerId()!=null) post.ownerId(wall.getOwnerId().intValue());
+				if(wall.getOwnerId()!=null) post.ownerId(wall.getAdjustedOwnerId().intValue());
 				post.message(content.getContent());
-				String ret = post.executeAsString();
-				System.out.println("VK return: "+ret);
+				if(content.hasImages()) {
+					PhotosGetWallUploadServerQuery getWallServer = vk.photos().getWallUploadServer(userActor);
+					if(wall.getOwnerId()!=null) getWallServer.groupId(wall.getOwnerId().intValue());
+					GetWallUploadServerResponse uploadServer = getWallServer.execute();
+					
+					List<String> attachments = new ArrayList<>();
+					for(IImageAttachment image : content.getImages()) {
+						WallUploadResponse upload = vk.upload()
+														.photoWall(uploadServer.getUploadUrl().toString(), image.asFile())
+														.execute();
+						PhotosSaveWallPhotoQuery savePhotoWall = vk.photos().saveWallPhoto(userActor, upload.getPhoto())
+																	.server(upload.getServer())
+																	.hash(upload.getHash());
+						if(wall.getOwnerId()!=null) savePhotoWall.groupId(wall.getOwnerId().intValue());
+						List<SaveWallPhotoResponse> photoList = savePhotoWall.execute();
+						attachments.add("photo" + photoList.get(0).getOwnerId() + "_" + photoList.get(0).getId());
+					}
+					post.attachments(attachments);
+				}
+				post.executeAsString();
 				return true;
-			} catch (ClientException e) {
+			} catch (Exception e) {
 				OLogger.log(e, DAO.asDocument(channel).getIdentity().toString());
 			}
 		}
