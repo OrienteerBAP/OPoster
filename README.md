@@ -21,6 +21,7 @@ Inspired by feedbacks after the following articles about Orienteer:
 
 ## Planned to support
 
+- [ ] Instagram
 - [ ] Odnoklassniki
 - [ ] Twitter
 - [ ] Pikabu
