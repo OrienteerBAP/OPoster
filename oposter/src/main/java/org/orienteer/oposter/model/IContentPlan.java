@@ -9,6 +9,9 @@ import org.orienteer.core.dao.ODocumentWrapperProvider;
 
 import com.google.inject.ProvidedBy;
 
+/**
+ * Content Plan - way to organize content 
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value=IContentPlan.CLASS_NAME,
 		   displayable = {"name", "description"})

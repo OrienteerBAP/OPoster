@@ -11,6 +11,9 @@ import org.apache.wicket.validation.ValidationError;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Image validator for files which are being uploaded
+ */
 public class OImageValidator implements IValidator<List<FileUpload>> {
 
   private static final List<String> SUPPORTED_IMAGES = Arrays.asList("png", "jpg", "jpeg", "bmp", "wbmp", "gif");

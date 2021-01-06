@@ -8,10 +8,14 @@ import org.apache.wicket.Component;
 import org.apache.wicket.model.IModel;
 import org.orienteer.core.component.property.DisplayMode;
 import org.orienteer.core.component.visualizer.AbstractSimpleVisualizer;
+import org.orienteer.core.component.visualizer.IVisualizer;
 import org.orienteer.oposter.model.IImageAttachment;
 
 import java.util.List;
 
+/**
+ * {@link IVisualizer} for attachments 
+ */
 public class AttachmentsVisualizer extends AbstractSimpleVisualizer {
 
     public static final String NAME = "attachments";

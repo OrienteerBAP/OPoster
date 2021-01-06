@@ -20,6 +20,9 @@ import org.orienteer.core.method.filters.WidgetTypeFilter;
 import com.google.common.base.Throwables;
 import com.google.inject.ProvidedBy;
 
+/**
+ * Channel to send content to 
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = IChannel.CLASS_NAME, 
            isAbstract = true,

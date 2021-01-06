@@ -7,6 +7,9 @@ import org.orienteer.core.component.property.DisplayMode;
 
 import java.io.Serializable;
 
+/**
+ * EventPayload to be used as basis for all events 
+ */
 public abstract class AbstractEventPayload implements Serializable {
 
     private final Component component;

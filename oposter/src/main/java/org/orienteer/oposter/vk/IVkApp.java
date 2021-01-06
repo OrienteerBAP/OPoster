@@ -1,21 +1,39 @@
 package org.orienteer.oposter.vk;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.MetaDataKey;
+import org.apache.wicket.feedback.FeedbackMessage;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.request.cycle.RequestCycle;
+import org.apache.wicket.request.flow.RedirectToUrlException;
 import org.orienteer.core.OrienteerWebApplication;
+import org.orienteer.core.component.BootstrapType;
+import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.dao.DAO;
 import org.orienteer.core.dao.DAOField;
 import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.method.IMethodContext;
+import org.orienteer.core.method.OFilter;
+import org.orienteer.core.method.OMethod;
+import org.orienteer.core.method.filters.PlaceFilter;
+import org.orienteer.core.method.filters.WidgetTypeFilter;
 import org.orienteer.logger.OLogger;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IImageAttachment;
+import org.orienteer.oposter.model.IOAuthReciever;
 import org.orienteer.oposter.model.IPlatformApp;
+import org.orienteer.oposter.web.OAuthCallbackResource;
 
+import com.github.scribejava.apis.VkontakteApi;
+import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.inject.ProvidedBy;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
@@ -27,9 +45,12 @@ import com.vk.api.sdk.queries.photos.PhotosGetWallUploadServerQuery;
 import com.vk.api.sdk.queries.photos.PhotosSaveWallPhotoQuery;
 import com.vk.api.sdk.queries.wall.WallPostQuery;
 
+/**
+ * {@link IPlatformApp} for VKontakte 
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = IVkApp.CLASS_NAME, orderOffset = 100)
-public interface IVkApp extends IPlatformApp {
+public interface IVkApp extends IPlatformApp, IOAuthReciever {
 	
 	public static final MetaDataKey<VkApiClient> VK_APP_KEY = new MetaDataKey<VkApiClient>() {};
 	
@@ -94,6 +115,16 @@ public interface IVkApp extends IPlatformApp {
 		return false;
 	}
 	
+	public default OAuth20Service getService(IOAuthReciever reciever) {
+		
+		ODocument reciverDoc = DAO.asDocument(reciever!=null?reciever:this); 
+		 return new ServiceBuilder(getAppId().toString())
+	                .apiSecret(getAppSecret())
+	                .defaultScope("offline,wall,groups,video,photos") // replace with desired scope
+	                .callback(OAuthCallbackResource.urlFor(reciverDoc).toString())
+	                .build(VkontakteApi.instance());
+	}
+	
 	public default VkApiClient getVkApiClient() {
 		VkApiClient ret = OrienteerWebApplication.lookupApplication().getMetaData(VK_APP_KEY);
 		if(ret==null) {
@@ -102,5 +133,33 @@ public interface IVkApp extends IPlatformApp {
 			OrienteerWebApplication.lookupApplication().setMetaData(VK_APP_KEY, ret);
 		}
 		return ret;
+	}
+	
+	@OMethod(
+			titleKey = "command.connectoauth", 
+			order=10,bootstrap=BootstrapType.SUCCESS,icon = FAIconType.play,
+			filters={
+					@OFilter(fClass = PlaceFilter.class, fData = "STRUCTURE_TABLE"),
+					@OFilter(fClass = WidgetTypeFilter.class, fData = "parameters"),
+			}
+	)
+	public default void connectOAuth(IMethodContext ctx) {
+		try(OAuth20Service service = getService(this)) {
+			String redirectTo = service.getAuthorizationUrl();
+			throw new RedirectToUrlException(redirectTo);
+		} catch (IOException e) {
+			ctx.showFeedback(FeedbackMessage.ERROR, "error.oauthrequest", Model.of(e.getMessage()));
+			OLogger.log(e, DAO.asDocument(this).getIdentity().toString());
+		}
+	}
+	
+	@Override
+	public default void codeObtained(String code) throws Exception {
+		try(OAuth20Service service = getService(this)) {
+			setDefaultUserAccessKey(service.getAccessToken(code).getAccessToken());
+			setDefaultUserId(getVkApiClient().users().get(
+							new UserActor(null, getDefaultUserAccessKey())).execute().get(0).getId().longValue());
+			DAO.save(this);
+		}
 	}
 }

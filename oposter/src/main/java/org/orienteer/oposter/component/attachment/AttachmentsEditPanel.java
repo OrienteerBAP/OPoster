@@ -1,10 +1,12 @@
 package org.orienteer.oposter.component.attachment;
 
-import com.google.common.collect.Comparators;
-import com.orientechnologies.orient.core.db.record.OIdentifiable;
-import com.orientechnologies.orient.core.record.impl.ODocument;
-import com.orientechnologies.orient.core.type.ODocumentWrapper;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
@@ -24,20 +26,19 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.util.ListModel;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
-import org.orienteer.core.OrienteerWebSession;
 import org.orienteer.core.dao.DAO;
 import org.orienteer.oposter.OPUtils;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IImageAttachment;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.orientechnologies.orient.core.db.record.OIdentifiable;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * Component for editing attachments
+ */
 @Slf4j
 public class AttachmentsEditPanel extends FormComponentPanel<List<OIdentifiable>> {
 

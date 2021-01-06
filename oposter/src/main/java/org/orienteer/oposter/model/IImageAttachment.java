@@ -14,6 +14,9 @@ import org.orienteer.core.dao.ODocumentWrapperProvider;
 import com.google.common.io.FileBackedOutputStream;
 import com.google.inject.ProvidedBy;
 
+/**
+ * OClass for image attachments to a content
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = IImageAttachment.CLASS_NAME)
 public interface IImageAttachment {

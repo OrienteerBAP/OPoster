@@ -13,6 +13,9 @@ import org.apache.wicket.request.resource.ByteArrayResource;
 import org.orienteer.core.component.property.DisplayMode;
 import org.orienteer.oposter.model.IImageAttachment;
 
+/**
+ * Component for editing single attachment
+ */
 public class SingleAttachmentEditPanel extends GenericPanel<IImageAttachment> {
 
     public SingleAttachmentEditPanel(String id, IModel<IImageAttachment> model) {

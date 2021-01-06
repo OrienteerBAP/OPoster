@@ -8,6 +8,9 @@ import org.orienteer.oposter.model.IChannel;
 
 import com.google.inject.ProvidedBy;
 
+/**
+ * {@link IChannel} for Facebook
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = IFacebookPage.CLASS_NAME, orderOffset = 100)
 public interface IFacebookPage extends IChannel{

@@ -24,6 +24,9 @@ import com.restfb.Parameter;
 import com.restfb.types.GraphResponse;
 import com.restfb.Version;
 
+/**
+ * {@link IPlatformApp} for Facebook 
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = IFacebookApp.CLASS_NAME, orderOffset = 100)
 public interface IFacebookApp extends IPlatformApp{

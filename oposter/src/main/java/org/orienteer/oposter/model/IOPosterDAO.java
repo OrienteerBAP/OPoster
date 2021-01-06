@@ -7,6 +7,9 @@ import org.orienteer.core.dao.Query;
 
 import com.google.inject.ProvidedBy;
 
+/**
+ * DAO for OPoster
+ */
 @ProvidedBy(DAOProvider.class)
 public interface IOPosterDAO {
 

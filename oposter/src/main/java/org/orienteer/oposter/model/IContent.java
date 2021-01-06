@@ -23,6 +23,9 @@ import com.google.common.base.Throwables;
 import com.google.inject.ProvidedBy;
 import com.orientechnologies.orient.core.metadata.schema.OType;
 
+/**
+ * Content to be distributed to channels
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = IContent.CLASS_NAME, 
 		   parentProperty = "contentPlan",

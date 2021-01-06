@@ -9,6 +9,9 @@ import org.orienteer.core.dao.ODocumentWrapperProvider;
 
 import com.google.inject.ProvidedBy;
 
+/**
+ * Class which holds configuration about connectivity to some social media
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = IPlatformApp.CLASS_NAME,
            isAbstract = true,

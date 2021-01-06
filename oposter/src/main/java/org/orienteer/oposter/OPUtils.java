@@ -7,6 +7,9 @@ import java.io.IOException;
 import lombok.experimental.UtilityClass;
 import net.coobird.thumbnailator.Thumbnails;
 
+/**
+ * Collection of useful functions
+ */
 @UtilityClass
 public class OPUtils {
 	private static final int MAX_IMAGE_SIZE = 5_000_000;

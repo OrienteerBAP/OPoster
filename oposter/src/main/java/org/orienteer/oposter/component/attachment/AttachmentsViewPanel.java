@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Component for displaying attachments
+ */
 @Slf4j
 public class AttachmentsViewPanel extends GenericPanel<OProperty> {
 

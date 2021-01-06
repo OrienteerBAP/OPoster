@@ -25,6 +25,9 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SendPhoto;
 import com.pengrad.telegrambot.response.BaseResponse;
 
+/**
+ * {@link IPlatformApp} for Telegram
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = ITelegramBot.CLASS_NAME, orderOffset = 100)
 public interface ITelegramBot extends IPlatformApp {

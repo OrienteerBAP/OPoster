@@ -19,6 +19,9 @@ import com.orientechnologies.orient.core.sql.executor.OResultSet;
 import lombok.extern.slf4j.Slf4j;
 import ru.ydn.wicket.wicketorientdb.utils.DBClosure;
 
+/**
+ * Class for handling invokations from scheduler 
+ */
 @Singleton
 @Slf4j
 public class OPScheduler {

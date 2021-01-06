@@ -7,6 +7,9 @@ import org.orienteer.oposter.model.IChannel;
 
 import com.google.inject.ProvidedBy;
 
+/**
+ * {@link IChannel} for Telegram 
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = ITelegramChannel.CLASS_NAME, orderOffset = 100)
 public interface ITelegramChannel extends IChannel {
