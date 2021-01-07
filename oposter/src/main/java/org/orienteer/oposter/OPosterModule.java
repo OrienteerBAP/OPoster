@@ -8,10 +8,12 @@ import org.orienteer.core.dao.DAO;
 import org.orienteer.core.method.OMethodsManager;
 import org.orienteer.core.module.AbstractOrienteerModule;
 import org.orienteer.core.module.IOrienteerModule;
+import org.orienteer.core.module.PerspectivesModule;
 import org.orienteer.core.module.PerspectivesModule.OPerspective;
 import org.orienteer.core.module.PerspectivesModule.OPerspectiveItem;
 import org.orienteer.core.util.CommonUtils;
 import org.orienteer.core.util.OSchemaHelper;
+import org.orienteer.mail.OMailModule;
 import org.orienteer.oposter.component.attachment.AttachmentsVisualizer;
 import org.orienteer.oposter.facebook.IFacebookApp;
 import org.orienteer.oposter.facebook.IFacebookPage;
@@ -37,7 +39,7 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
 public class OPosterModule extends AbstractOrienteerModule{
 
 	protected OPosterModule() {
-		super("oposter", 8);
+		super("oposter", 8, PerspectivesModule.NAME, OMailModule.NAME);
 	}
 	
 	@Override
