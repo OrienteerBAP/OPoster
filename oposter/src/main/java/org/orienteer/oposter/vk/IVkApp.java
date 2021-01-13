@@ -41,6 +41,7 @@ import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.photos.responses.GetWallUploadServerResponse;
 import com.vk.api.sdk.objects.photos.responses.SaveWallPhotoResponse;
 import com.vk.api.sdk.objects.photos.responses.WallUploadResponse;
+import com.vk.api.sdk.objects.wall.responses.PostResponse;
 import com.vk.api.sdk.queries.photos.PhotosGetWallUploadServerQuery;
 import com.vk.api.sdk.queries.photos.PhotosSaveWallPhotoQuery;
 import com.vk.api.sdk.queries.wall.WallPostQuery;
@@ -106,7 +107,7 @@ public interface IVkApp extends IPlatformApp, IOAuthReciever {
 					}
 					post.attachments(attachments);
 				}
-				post.executeAsString();
+				post.execute();
 				return true;
 			} catch (Exception e) {
 				OLogger.log(e, DAO.asDocument(channel).getIdentity().toString());
