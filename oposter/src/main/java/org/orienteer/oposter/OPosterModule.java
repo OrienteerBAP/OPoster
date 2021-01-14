@@ -16,7 +16,7 @@ import org.orienteer.core.util.OSchemaHelper;
 import org.orienteer.mail.OMailModule;
 import org.orienteer.oposter.component.attachment.AttachmentsVisualizer;
 import org.orienteer.oposter.facebook.IFacebookApp;
-import org.orienteer.oposter.facebook.IFacebookPage;
+import org.orienteer.oposter.facebook.IFacebookConnection;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IContentPlan;
@@ -39,7 +39,7 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
 public class OPosterModule extends AbstractOrienteerModule{
 
 	protected OPosterModule() {
-		super("oposter", 8, PerspectivesModule.NAME, OMailModule.NAME);
+		super("oposter", 9, PerspectivesModule.NAME, OMailModule.NAME);
 	}
 	
 	@Override
@@ -52,7 +52,7 @@ public class OPosterModule extends AbstractOrienteerModule{
 							 IPlatformApp.class);
 		DAO.describe(helper, ITelegramChannel.class, 
 							 ITelegramBot.class);
-		DAO.describe(helper, IFacebookPage.class,
+		DAO.describe(helper, IFacebookConnection.class,
 							 IFacebookApp.class);
 		DAO.describe(helper, IVkWall.class,
 							 IVkApp.class);

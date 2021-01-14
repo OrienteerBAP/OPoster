@@ -51,14 +51,14 @@ public interface IFacebookApp extends IPlatformApp{
 	
 	@Override
 	public default boolean send (IChannel channel, IContent content) {
-		if(channel instanceof IFacebookPage) {
-			IFacebookPage fp = (IFacebookPage) channel;
-			FacebookClient facebookClient = getFacebookClient().createClientWithAccessToken(fp.getPageAccessToken());
+		if(channel instanceof IFacebookConnection) {
+			IFacebookConnection fp = (IFacebookConnection) channel;
+			FacebookClient facebookClient = getFacebookClient().createClientWithAccessToken(fp.getAccessToken());
 			if(!content.hasImages()) {
-				facebookClient.publish(fp.getPageIdAsString()+"/feed", GraphResponse.class, Parameter.with("message", content.getContent()));
+				facebookClient.publish(fp.getFacebookIdAsString()+"/feed", GraphResponse.class, Parameter.with("message", content.getContent()));
 			} else {
 				IImageAttachment image = content.getImages().get(0);
-				facebookClient.publish(fp.getPageIdAsString()+"/photos", 
+				facebookClient.publish(fp.getFacebookIdAsString()+"/photos", 
 									   GraphResponse.class,
 									   BinaryAttachment.with(image.getName(), image.getData(), image.detectContentType()),
 									   Parameter.with("message", content.getContent()));

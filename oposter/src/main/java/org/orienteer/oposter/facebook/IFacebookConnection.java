@@ -30,22 +30,27 @@ import com.restfb.types.Page;
  * {@link IChannel} for Facebook
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IFacebookPage.CLASS_NAME, orderOffset = 100)
-public interface IFacebookPage extends IChannel, IOAuthReciever{
-	public static final String CLASS_NAME = "OPFacebookPage";
+@DAOOClass(value = IFacebookConnection.CLASS_NAME, orderOffset = 100)
+public interface IFacebookConnection extends IChannel, IOAuthReciever{
+	public static final String CLASS_NAME = "OPFacebookConnection";
 	
 	@DAOField(notNull = true)
-	public Long getPageId();
-	public void setPageId(Long value);
+	public Long getFacebookId();
+	public void setFacebookId(Long value);
 	
-	public default String getPageIdAsString() {
-		Long pageId = getPageId();
+	public default String getFacebookIdAsString() {
+		Long pageId = getFacebookId();
 		return pageId!=null?Long.toUnsignedString(pageId):null;
 	}
 	
 	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_PASSWORD)
-	public String getPageAccessToken();
-	public void setPageAccessToken(String value);
+	public String getAccessToken();
+	public void setAccessToken(String value);
+	
+	@DAOField(notNull = true, defaultValue = "false")
+	public Boolean isPage();
+	public void setPage(Boolean value);
+	
 	
 	@OMethod(
 			titleKey = "command.connectoauth", 
@@ -60,7 +65,7 @@ public interface IFacebookPage extends IChannel, IOAuthReciever{
 		if(app instanceof IFacebookApp) {
 			IFacebookApp fbApp = (IFacebookApp) app;
 			ScopeBuilder scope = new ScopeBuilder();
-			scope.addPermission(FacebookPermissions.PAGES_MANAGE_POSTS);
+			scope.addPermission(isPage()?FacebookPermissions.PAGES_MANAGE_POSTS:FacebookPermissions.PUBLISH_TO_GROUPS);
 			String redirectTo = fbApp.getFacebookClient().getLoginDialogUrl(fbApp.getAppId(),
 					OAuthCallbackResource.urlFor(DAO.asDocument(this)).toString(), 
 					scope);
@@ -82,9 +87,13 @@ public interface IFacebookPage extends IChannel, IOAuthReciever{
 			if(token.getExpires()!=null) {
 				token = facebookClient.obtainExtendedAccessToken(fbApp.getAppId(), fbApp.getAppSecret(), token.getAccessToken());
 			}
-			facebookClient = facebookClient.createClientWithAccessToken(token.getAccessToken());
-			Page page = facebookClient.fetchObject(getPageIdAsString(), Page.class, Parameter.with("fields","access_token"));
-			setPageAccessToken(page.getAccessToken());
+			String accessToken = token.getAccessToken();
+			if(isPage()) {
+				facebookClient = facebookClient.createClientWithAccessToken(token.getAccessToken());
+				Page page = facebookClient.fetchObject(getFacebookIdAsString(), Page.class, Parameter.with("fields","access_token"));
+				accessToken = page.getAccessToken();
+			}
+			setAccessToken(accessToken);
 			DAO.save(this);
 		}
 	}
