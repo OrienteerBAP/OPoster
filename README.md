@@ -18,10 +18,10 @@ Inspired by feedbacks after the following articles about Orienteer:
 - [X] Telegram
 - [X] Facebook
 - [X] Vkontakte
+- [X] Instagram
 
 ### Planned to support
 
-- [ ] Instagram
 - [ ] Odnoklassniki
 - [ ] Twitter
 - [ ] Pikabu
