@@ -17,6 +17,8 @@ import org.orienteer.mail.OMailModule;
 import org.orienteer.oposter.component.attachment.AttachmentsVisualizer;
 import org.orienteer.oposter.facebook.IFacebookApp;
 import org.orienteer.oposter.facebook.IFacebookConnection;
+import org.orienteer.oposter.instagram.IIGAccount;
+import org.orienteer.oposter.instagram.IIGApp;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IContentPlan;
@@ -39,7 +41,7 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
 public class OPosterModule extends AbstractOrienteerModule{
 
 	protected OPosterModule() {
-		super("oposter", 9, PerspectivesModule.NAME, OMailModule.NAME);
+		super("oposter", 10, PerspectivesModule.NAME, OMailModule.NAME);
 	}
 	
 	@Override
@@ -56,6 +58,8 @@ public class OPosterModule extends AbstractOrienteerModule{
 							 IFacebookApp.class);
 		DAO.describe(helper, IVkWall.class,
 							 IVkApp.class);
+		DAO.describe(helper, IIGApp.class,
+							 IIGAccount.class);
 		
 		helper.oClass("OFunction")
 					.oDocument("name", "Scheduler")

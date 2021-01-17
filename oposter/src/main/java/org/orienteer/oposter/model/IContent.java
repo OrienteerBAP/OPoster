@@ -87,14 +87,16 @@ public interface IContent {
 		if(channels==null || channels.isEmpty()) {
 			ctx.showFeedback(FeedbackMessage.WARNING, "content.warning.nochannels", null);
 		} else {
+			int errors = 0;
 			for (IChannel iChannel : channels) {
 				try {
 					iChannel.send(this);
 				} catch (Throwable e) {
+					errors++;
 					ctx.showFeedback(FeedbackMessage.ERROR, "content.error.cantsend", Model.of(Throwables.getStackTraceAsString(e)));
 				}
 			}
-			ctx.showFeedback(FeedbackMessage.INFO, "content.info.wassent", null);
+			if(errors==0) ctx.showFeedback(FeedbackMessage.INFO, "content.info.wassent", null);
 		}
 	}
 	
