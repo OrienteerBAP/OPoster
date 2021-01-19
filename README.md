@@ -1,12 +1,13 @@
+[![Build Status](https://travis-ci.org/OrienteerBAP/OPoster.svg?branch=master)](https://travis-ci.org/OrienteerBAP/OPoster) [![Docker Pulls](https://img.shields.io/docker/pulls/orienteer/oposter.svg)](https://hub.docker.com/r/orienteer/oposter/)
+
 # OPoster
 OPoster is a planning, scheduling and posting to social media networks.
 Publishing with OPoster is easy:
 
-1. Create content
-2. Attach one or more photos
-3. Select one or more channels to publish (for example: some telegram channel, facebook page, etc.)
-4. Specify **when** to post
-5. Wait and relax:)
+1. Create **what** to post (aka content: text with some attached photos)
+2. Select **where** to publish the post: one or more channels (for example: some telegram channel, facebook page, etc.)
+3. Specify **when** to post
+4. Relax and wait:)
 
 Inspired by feedbacks after the following articles about Orienteer:
 
@@ -29,6 +30,59 @@ Inspired by feedbacks after the following articles about Orienteer:
 - [ ] TikTok
 - [ ] Tumblr
 - [ ] Pinterest
+
+## Installation Guide
+
+There are 2 ways how you can install OPoster and start using it:
+
+1. Standalone installation via [docker image](https://hub.docker.com/repository/docker/orienteer/oposter)
+2. As add-on module on pre-installed [Orienteer](https://github.com/OrienteerBAP/Orienteer) instance
+
+### OPoster as standalone docker application
+
+You can start OPoster by the following command:
+
+```
+docker run -it -p8080:8080 orienteer/oposter
+```
+
+For more advanced usage, it's recommended to used `docker-compose`. Here is template of `docker-compose.yml` file:
+
+```yml
+version: '2.1'
+services:
+   orienteer:
+      image: orienteer/oposter:latest
+      container_name: <Container name>
+      network_mode: 'bridge'
+      healthcheck:
+          test: ["CMD-SHELL", "curl --fail -s -I http://localhost:8080 | grep 'HTTP/1.1' || exit 1"]
+          interval: 5m
+          timeout: 5s
+      ports:
+          - "8080:8080"
+      volumes:
+          - ./runtime:/app/runtime
+          - ./maven-repository:/app/repository
+      environment:
+          - ORIENTDB_ADMIN_PASSWORD=<Admin Password>
+          - ORIENTDB_GUEST_PASSWORD=<Guess Password?
+          - JAVA_TOOL_OPTIONS=-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/app/runtime/heapdump.bin
+```
+
+### OPoster as add-on module on pre-installed Orienteer
+
+Please follow the following instruction:
+
+1. Login into your Orienteer instance under user with admin rights
+2. Navigate to page **Schema** and open tab **Artifacts**
+3. Click **Add**
+4. In modal window click **Available Orienteer Modules**
+5. Wait while list of modules will be loaded
+6. Select `org.orienteer.oposter`/`oposter`
+7. Click **Install as Trusted** (or **Install as Untrusted** if you are not sure in stability of OPoster)
+8. Click **Reload Orienteer**
+9. After awaiting ~30 seconds (depends on how heavy is your Orienteer instance) OPoster is installed as add-on and ready to be used
 
 ## Social Media Setup Guide
 
