@@ -3,11 +3,13 @@ package org.orienteer.oposter.model;
 import java.util.List;
 
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
+import org.orienteer.core.dao.DAO;
 import org.orienteer.core.dao.DAOField;
 import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
 
 import com.google.inject.ProvidedBy;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 
 /**
  * Class which holds configuration about connectivity to some social media
@@ -32,6 +34,11 @@ public interface IPlatformApp {
 	
 	public default boolean send (IChannel channel, IContent content) {
 		throw new IllegalStateException("Child classes should override this default method");
+	}
+	
+	public default String getMetadataKey() {
+		ODocument doc = DAO.asDocument(this);
+		return doc.getSchemaClass().getName()+doc.getIdentity()+doc.getVersion();
 	}
 	
 }

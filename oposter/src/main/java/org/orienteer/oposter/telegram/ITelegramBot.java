@@ -63,7 +63,7 @@ public interface ITelegramBot extends IPlatformApp {
 	}
 	
 	public default TelegramBot getTelegramBot() {
-		String key = ITelegramBot.class.getSimpleName()+DAO.asDocument(this).getIdentity();
+		String key = getMetadataKey();
 		TelegramBot ret = OrienteerWebApplication.lookupApplication().getMetaData(key);
 		if(ret==null) {
 			ret = new TelegramBot(getToken());

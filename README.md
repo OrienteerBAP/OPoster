@@ -19,11 +19,11 @@ Inspired by feedbacks after the following articles about Orienteer:
 - [X] Facebook
 - [X] Vkontakte
 - [X] Instagram
+- [X] Twitter
 
 ### Planned to support
 
 - [ ] Odnoklassniki
-- [ ] Twitter
 - [ ] Pikabu
 - [ ] Yandex Dzen
 - [ ] TikTok

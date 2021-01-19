@@ -69,7 +69,7 @@ public interface IFacebookApp extends IPlatformApp{
 	
 	
 	public default FacebookClient getFacebookClient() {
-		String key = IFacebookApp.class.getSimpleName()+DAO.asDocument(this).getIdentity();
+		String key = getMetadataKey();
 		FacebookClient ret = OrienteerWebApplication.lookupApplication().getMetaData(key);
 		if(ret==null) {
 			String appAccessToken = getAppAccessToken();

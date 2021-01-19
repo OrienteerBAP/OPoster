@@ -122,7 +122,7 @@ public interface IVkApp extends IPlatformApp, IOAuthReciever {
 		 return new ServiceBuilder(getAppId().toString())
 	                .apiSecret(getAppSecret())
 	                .defaultScope("offline,wall,groups,video,photos") // replace with desired scope
-	                .callback(OAuthCallbackResource.urlFor(reciverDoc).toString())
+	                .callback(OAuthCallbackResource.urlFor(reciverDoc))
 	                .build(VkontakteApi.instance());
 	}
 	

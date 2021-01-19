@@ -67,7 +67,7 @@ public interface IFacebookConnection extends IChannel, IOAuthReciever{
 			ScopeBuilder scope = new ScopeBuilder();
 			scope.addPermission(isPage()?FacebookPermissions.PAGES_MANAGE_POSTS:FacebookPermissions.PUBLISH_TO_GROUPS);
 			String redirectTo = fbApp.getFacebookClient().getLoginDialogUrl(fbApp.getAppId(),
-					OAuthCallbackResource.urlFor(DAO.asDocument(this)).toString(), 
+					OAuthCallbackResource.urlFor(DAO.asDocument(this)), 
 					scope);
 			throw new RedirectToUrlException(redirectTo);
 		}
@@ -81,8 +81,7 @@ public interface IFacebookConnection extends IChannel, IOAuthReciever{
 			FacebookClient facebookClient = fbApp.getFacebookClient();
 			AccessToken token = facebookClient.obtainUserAccessToken(fbApp.getAppId(), 
 															   fbApp.getAppSecret(),
-															   OAuthCallbackResource.urlFor(DAO.asDocument(this))
-															   		.toString(),
+															   OAuthCallbackResource.urlFor(DAO.asDocument(this)),
 															   code);
 			if(token.getExpires()!=null) {
 				token = facebookClient.obtainExtendedAccessToken(fbApp.getAppId(), fbApp.getAppSecret(), token.getAccessToken());
