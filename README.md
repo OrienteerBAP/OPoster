@@ -31,6 +31,8 @@ Inspired by feedbacks after the following articles about Orienteer:
 - [ ] Tumblr
 - [ ] Pinterest
 
+If you need some network which is currently not in the list: please [create an issue](https://github.com/OrienteerBAP/OPoster/issues).
+
 ## Installation Guide
 
 There are 2 ways how you can install OPoster and start using it:
@@ -83,6 +85,16 @@ Please follow the following instruction:
 7. Click **Install as Trusted** (or **Install as Untrusted** if you are not sure in stability of OPoster)
 8. Click **Reload Orienteer**
 9. After awaiting ~30 seconds (depends on how heavy is your Orienteer instance) OPoster is installed as add-on and ready to be used
+
+## Formats Coverage
+
+| Network | Only Text | Text with one image | Text with multiple images |
+|---------|-----------|---------------------|---------------------------|
+| Telegram | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Facebook | :white_check_mark: | :white_check_mark: | :x: |
+| Vkontakte | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Instagram | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Twitter | :white_check_mark: | :x: | :x: |
 
 ## Social Media Setup Guide
 
