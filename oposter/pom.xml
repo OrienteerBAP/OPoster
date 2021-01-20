@@ -85,7 +85,7 @@
 		<dependency>
 		    <groupId>com.github.redouane59.twitter</groupId>
 		    <artifactId>twittered-jdk8</artifactId>
-		    <version>1.15</version>
+		    <version>1.17</version>
 		    <exclusions>
 		    	<exclusion>
 		    		<groupId>com.google.guava</groupId>

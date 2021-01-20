@@ -94,7 +94,7 @@ Please follow the following instruction:
 | Facebook | :white_check_mark: | :white_check_mark: | :x: |
 | Vkontakte | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Instagram | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| Twitter | :white_check_mark: | :x: | :x: |
+| Twitter | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
 ## Social Media Setup Guide
 
