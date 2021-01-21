@@ -30,6 +30,10 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.inject.ProvidedBy;
 
+/**
+ * {@link IPlatformApp} for Twitter. Corresponding application should be created and than 
+ * key and secret key configured on app document
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = ITwitterApp.CLASS_NAME, orderOffset = 100)
 public interface ITwitterApp extends IPlatformApp {

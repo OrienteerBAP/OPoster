@@ -19,6 +19,9 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 
+/**
+ * {@link IChannel} which represents Account in Instagram
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = IIGAccount.CLASS_NAME, orderOffset = 100)
 public interface IIGAccount extends IChannel {

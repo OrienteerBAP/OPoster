@@ -15,6 +15,9 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 
+/**
+ * OkHttp {@link CookieJar} which can be serialized and stored for subsequent reuse
+ */
 public class SerializableCookieJar implements CookieJar, Serializable {
 
 
@@ -38,6 +41,9 @@ public class SerializableCookieJar implements CookieJar, Serializable {
         }
     }
 
+    /**
+     * Serializable representation of a cookie 
+     */
     @AllArgsConstructor
     public static class SerializableCookie implements Serializable {
 
@@ -45,7 +51,7 @@ public class SerializableCookieJar implements CookieJar, Serializable {
 
         private transient Cookie cookie;
 
-        private static long NON_VALID_EXPIRES_AT = -1L;
+        private static final long NON_VALID_EXPIRES_AT = -1L;
 
         private void writeObject(ObjectOutputStream out) throws IOException {
             out.writeObject(cookie.name());

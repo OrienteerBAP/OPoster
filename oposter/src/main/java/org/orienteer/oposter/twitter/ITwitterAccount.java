@@ -32,6 +32,9 @@ import com.github.scribejava.core.model.OAuth1RequestToken;
 import com.github.scribejava.core.oauth.OAuth10aService;
 import com.google.inject.ProvidedBy;
 
+/**
+ * {@link IChannel} which represents twitter account
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = ITwitterAccount.CLASS_NAME, orderOffset = 100)
 public interface ITwitterAccount extends IChannel, IOAuthReciever {

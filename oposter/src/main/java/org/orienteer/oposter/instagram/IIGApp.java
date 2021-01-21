@@ -20,6 +20,9 @@ import com.github.instagram4j.instagram4j.actions.timeline.TimelineAction.Sideca
 import com.github.instagram4j.instagram4j.exceptions.IGLoginException;
 import com.google.inject.ProvidedBy;
 
+/**
+ * {@link IPlatformApp} for Instagram: no configuration - can be single for all IG Accounts
+ */
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = IIGApp.CLASS_NAME, orderOffset = 100)
 public interface IIGApp extends IPlatformApp{
