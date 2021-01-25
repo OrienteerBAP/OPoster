@@ -13,6 +13,7 @@ public class OPosterWebApplication extends OrienteerWebApplication
 	public void init()
 	{
 		super.init();
+		registerModule(OPosterAppModule.class);
 	}
 	
 }

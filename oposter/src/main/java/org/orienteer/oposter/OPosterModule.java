@@ -41,9 +41,12 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
  * {@link IOrienteerModule} for 'oposter' module
  */
 public class OPosterModule extends AbstractOrienteerModule{
+	
+	public static final String NAME = "oposter";
+	public static final String PERSPECTIVE_ALIAS = "oposter";
 
 	protected OPosterModule() {
-		super("oposter", 11, PerspectivesModule.NAME, OMailModule.NAME);
+		super(NAME, 11, PerspectivesModule.NAME, OMailModule.NAME);
 	}
 	
 	@Override
