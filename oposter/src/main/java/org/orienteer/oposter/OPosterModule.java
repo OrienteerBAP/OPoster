@@ -23,6 +23,8 @@ import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IContentPlan;
 import org.orienteer.oposter.model.IPlatformApp;
+import org.orienteer.oposter.ok.IOkChannel;
+import org.orienteer.oposter.ok.IOkApp;
 import org.orienteer.oposter.telegram.ITelegramBot;
 import org.orienteer.oposter.telegram.ITelegramChannel;
 import org.orienteer.oposter.twitter.ITwitterAccount;
@@ -46,7 +48,7 @@ public class OPosterModule extends AbstractOrienteerModule{
 	public static final String PERSPECTIVE_ALIAS = "oposter";
 
 	protected OPosterModule() {
-		super(NAME, 11, PerspectivesModule.NAME, OMailModule.NAME);
+		super(NAME, 14, PerspectivesModule.NAME, OMailModule.NAME);
 	}
 	
 	@Override
@@ -67,6 +69,8 @@ public class OPosterModule extends AbstractOrienteerModule{
 							 IIGAccount.class);
 		DAO.describe(helper, ITwitterApp.class,
 							 ITwitterAccount.class);
+		DAO.describe(helper, IOkApp.class,
+				 			 IOkChannel.class);
 		
 		helper.oClass("OFunction")
 					.oDocument("name", "Scheduler")
