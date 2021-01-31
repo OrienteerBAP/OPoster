@@ -21,10 +21,10 @@ Inspired by feedbacks after the following articles about Orienteer:
 - [X] [Vkontakte](#vkontakte)
 - [X] [Instagram](#instagram)
 - [X] [Twitter](#twitter)
+- [X] [Odnoklassniki](#odnoklassniki)
 
 ### Planned to support
 
-- [ ] Odnoklassniki
 - [ ] Pikabu
 - [ ] Yandex Dzen
 - [ ] TikTok
@@ -95,6 +95,7 @@ Please follow the following instruction:
 | Vkontakte | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Instagram | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | Twitter | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Odnoklassniki | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
 ## Social Media Setup Guide
 
@@ -182,3 +183,23 @@ Content is universal is can be sent to any supported platforms. But setup of pla
 #### Read More
 
 * [Twitter Dev Home Page](https://developer.twitter.com/apps)
+
+### Odnoklassniki
+
+| Nature | OClass | Property | Description |
+|--------|--------|----------|-------------|
+| Platform App | OPOkApp |       | OClass for specifying details about Odnoklassniki Application which needs to be created to post with OPoster |
+| Platform App | OPOkApp | appId | Application Identification which corresponds to application created in Odnoklassniki |
+| Platform App | OPOkApp | publicKey | Public Key for the app in Odnoklassniki: check your email after app creation |
+| Platform App | OPOkApp | secretKey | Secret Key for the app in Odnoklassniki: check your email after app creation |
+| Channel | OPOkChannel |         | OClass for defining details about user, group/page in Odnoklassniki you are going to post on |
+| Channel | OPOkChannel | groupId | Id of a group/page to post to. Should be positive or null. Null means to post on wall of a specified user |
+| Channel | OPOkChannel | acessToken | Access Token for a user to post on behalf of |
+
+#### Read More
+
+* [Page to request dev access](https://ok.ru/devaccess)
+* [List of your apps](https://ok.ru/vitrine/myuploaded)
+* [How to create app in Odnoklassniki](https://apiok.ru/dev/app/create)
+* [Odnoklassniki REST methods](https://apiok.ru/dev/methods/rest/)
+Remember, that you have to work with support to get required rights for your application: **PUBLISH_TO_STREAM;VALUABLE_ACCESS;LONG_ACCESS_TOKEN;PHOTO_CONTENT;GROUP_CONTENT**
