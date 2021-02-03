@@ -43,6 +43,11 @@
 			<artifactId>orienteer-logger-server</artifactId>
 		</dependency>
 		<dependency>
+		   <groupId>org.orienteer.vuecket</groupId>
+		   <artifactId>vuecket</artifactId>
+		   <version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
 		    <version>4.9.0</version>

@@ -15,6 +15,7 @@ import org.orienteer.core.util.CommonUtils;
 import org.orienteer.core.util.OSchemaHelper;
 import org.orienteer.mail.OMailModule;
 import org.orienteer.oposter.component.attachment.AttachmentsVisualizer;
+import org.orienteer.oposter.component.widget.AbstractCalendarContentWidget;
 import org.orienteer.oposter.facebook.IFacebookApp;
 import org.orienteer.oposter.facebook.IFacebookConnection;
 import org.orienteer.oposter.instagram.IIGAccount;
@@ -141,6 +142,7 @@ public class OPosterModule extends AbstractOrienteerModule{
 		
 		OMethodsManager.get().addModule(OPosterModule.class);
 		OMethodsManager.get().reload();
+		app.registerWidgets(AbstractCalendarContentWidget.class.getPackage().getName());
 		
 		
 		//Kicking-off scheduled events.
@@ -157,6 +159,7 @@ public class OPosterModule extends AbstractOrienteerModule{
 	public void onDestroy(OrienteerWebApplication app, ODatabaseSession db) {
 		super.onDestroy(app, db);
 		app.unmountPackage("org.orienteer.oposter.web");
+		app.unregisterWidgets(AbstractCalendarContentWidget.class.getPackage().getName());
 		OMethodsManager.get().removeModule(OPosterModule.class);
 		OMethodsManager.get().reload();
 	}
