@@ -9,6 +9,7 @@ import org.orienteer.logger.OLogger;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IOPosterDAO;
+import org.orienteer.oposter.model.IPosting;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -61,12 +62,7 @@ public class OPScheduler {
 				List<IChannel> channels = content.getChannels();
 				if(channels!=null && !channels.isEmpty()) {
 					for (IChannel channel : channels) {
-						try {
-							channel.send(content);
-						} catch (Throwable e) {
-							log.error("Problem during sending to "+channel.getName(), e);
-							OLogger.log(e, DAO.asDocument(channel).getIdentity().toString());
-						}
+						channel.getPlatformApp().sendSafe(channel, content);
 					}
 					content.published();
 					DAO.save(content);

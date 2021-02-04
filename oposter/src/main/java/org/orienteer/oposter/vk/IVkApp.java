@@ -27,6 +27,7 @@ import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IImageAttachment;
 import org.orienteer.oposter.model.IOAuthReciever;
 import org.orienteer.oposter.model.IPlatformApp;
+import org.orienteer.oposter.model.IPosting;
 import org.orienteer.oposter.web.OAuthCallbackResource;
 
 import com.github.scribejava.apis.VkontakteApi;
@@ -79,41 +80,36 @@ public interface IVkApp extends IPlatformApp, IOAuthReciever {
 	public void setDefaultUserAccessKey(String value);
 	
 	@Override
-	public default boolean send (IChannel channel, IContent content) {
-		if(channel instanceof IVkWall) {
-			IVkWall wall = (IVkWall) channel;
-			VkApiClient vk = getVkApiClient();
-			UserActor userActor = new UserActor(wall.getEffectiveUserId().intValue(), wall.getEffectiveAccessKey());
-			try {
-				WallPostQuery post = vk.wall().post(userActor);
-				if(wall.getOwnerId()!=null) post.ownerId(wall.getAdjustedOwnerId().intValue());
-				post.message(content.getContent());
-				if(content.hasImages()) {
-					PhotosGetWallUploadServerQuery getWallServer = vk.photos().getWallUploadServer(userActor);
-					if(wall.getOwnerId()!=null) getWallServer.groupId(wall.getOwnerId().intValue());
-					GetWallUploadServerResponse uploadServer = getWallServer.execute();
-					
-					List<String> attachments = new ArrayList<>();
-					for(IImageAttachment image : content.getImages()) {
-						WallUploadResponse upload = vk.upload()
-														.photoWall(uploadServer.getUploadUrl().toString(), image.asFile())
-														.execute();
-						PhotosSaveWallPhotoQuery savePhotoWall = vk.photos().saveWallPhoto(userActor, upload.getPhoto())
-																	.server(upload.getServer())
-																	.hash(upload.getHash());
-						if(wall.getOwnerId()!=null) savePhotoWall.groupId(wall.getOwnerId().intValue());
-						List<SaveWallPhotoResponse> photoList = savePhotoWall.execute();
-						attachments.add("photo" + photoList.get(0).getOwnerId() + "_" + photoList.get(0).getId());
-					}
-					post.attachments(attachments);
-				}
-				post.execute();
-				return true;
-			} catch (Exception e) {
-				OLogger.log(e, DAO.asDocument(channel).getIdentity().toString());
+	public default IPosting send (IChannel channel, IContent content) throws Exception {
+		IVkWall wall = checkChannelType(channel, IVkWall.class);
+		VkApiClient vk = getVkApiClient();
+		UserActor userActor = new UserActor(wall.getEffectiveUserId().intValue(), wall.getEffectiveAccessKey());
+		WallPostQuery post = vk.wall().post(userActor);
+		if(wall.getOwnerId()!=null) post.ownerId(wall.getAdjustedOwnerId().intValue());
+		post.message(content.getContent());
+		if(content.hasImages()) {
+			PhotosGetWallUploadServerQuery getWallServer = vk.photos().getWallUploadServer(userActor);
+			if(wall.getOwnerId()!=null) getWallServer.groupId(wall.getOwnerId().intValue());
+			GetWallUploadServerResponse uploadServer = getWallServer.execute();
+			
+			List<String> attachments = new ArrayList<>();
+			for(IImageAttachment image : content.getImages()) {
+				WallUploadResponse upload = vk.upload()
+												.photoWall(uploadServer.getUploadUrl().toString(), image.asFile())
+												.execute();
+				PhotosSaveWallPhotoQuery savePhotoWall = vk.photos().saveWallPhoto(userActor, upload.getPhoto())
+															.server(upload.getServer())
+															.hash(upload.getHash());
+				if(wall.getOwnerId()!=null) savePhotoWall.groupId(wall.getOwnerId().intValue());
+				List<SaveWallPhotoResponse> photoList = savePhotoWall.execute();
+				attachments.add("photo" + photoList.get(0).getOwnerId() + "_" + photoList.get(0).getId());
 			}
+			post.attachments(attachments);
 		}
-		return false;
+		PostResponse response = post.execute();
+		return IPosting.createFor(channel, content)
+						.setExternalPostingId(response.getPostId())
+						.setUrl("https://vk.com/wall%d_%d", wall.getAdjustedOwnerId(), response.getPostId());
 	}
 	
 	public default OAuth20Service getService(IOAuthReciever reciever) {

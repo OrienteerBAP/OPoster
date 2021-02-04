@@ -13,6 +13,7 @@ import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IImageAttachment;
 import org.orienteer.oposter.model.IPlatformApp;
+import org.orienteer.oposter.model.IPosting;
 
 import com.google.inject.ProvidedBy;
 import com.orientechnologies.orient.core.metadata.schema.OType;
@@ -22,6 +23,7 @@ import com.restfb.FacebookClient;
 import com.restfb.FacebookClient.AccessToken;
 import com.restfb.Parameter;
 import com.restfb.types.GraphResponse;
+import com.restfb.types.Post;
 import com.restfb.Version;
 
 /**
@@ -50,21 +52,23 @@ public interface IFacebookApp extends IPlatformApp{
 	
 	
 	@Override
-	public default boolean send (IChannel channel, IContent content) {
-		if(channel instanceof IFacebookConnection) {
-			IFacebookConnection fp = (IFacebookConnection) channel;
-			FacebookClient facebookClient = getFacebookClient().createClientWithAccessToken(fp.getAccessToken());
-			if(!content.hasImages()) {
-				facebookClient.publish(fp.getFacebookIdAsString()+"/feed", GraphResponse.class, Parameter.with("message", content.getContent()));
-			} else {
-				IImageAttachment image = content.getImages().get(0);
-				facebookClient.publish(fp.getFacebookIdAsString()+"/photos", 
-									   GraphResponse.class,
-									   BinaryAttachment.with(image.getName(), image.getData(), image.detectContentType()),
-									   Parameter.with("message", content.getContent()));
-			}
+	public default IPosting send (IChannel channel, IContent content) throws Exception {
+		IFacebookConnection fp = checkChannelType(channel, IFacebookConnection.class);
+		FacebookClient facebookClient = getFacebookClient().createClientWithAccessToken(fp.getAccessToken());
+		GraphResponse response; 
+		if(!content.hasImages()) {
+			response = facebookClient.publish(fp.getFacebookIdAsString()+"/feed", GraphResponse.class, Parameter.with("message", content.getContent()));
+		} else {
+			IImageAttachment image = content.getImages().get(0);
+			response = facebookClient.publish(fp.getFacebookIdAsString()+"/photos", 
+								   GraphResponse.class,
+								   BinaryAttachment.with(image.getName(), image.getData(), image.detectContentType()),
+								   Parameter.with("message", content.getContent()));
 		}
-		return false;
+		Post post = facebookClient.fetchObject(response.getPostId(), Post.class);
+		return IPosting.createFor(channel, content)
+						.setExternalPostingId(response.getPostId())
+						.setUrl(post.getPermalinkUrl());
 	}
 	
 	

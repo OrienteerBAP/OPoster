@@ -50,11 +50,9 @@ public interface IChannel {
 	public List<IContent> getContent();
 	public void setContent(List<IContent> value);
 	
-	public default void send(IContent content) {
-		IPlatformApp  platformApp = getPlatformApp();
-		if(platformApp!=null) platformApp.send(this, content);
-		else throw new IllegalStateException("Please define Platform App first");
-	}
+	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TABLE, inverse = "channel")
+	public List<IPosting> getPostings();
+	public void setPostings(List<IPosting> value);
 	
 	@OMethod(
 			titleKey = "channel.testsend", 

@@ -15,11 +15,16 @@ import org.orienteer.core.method.OFilter;
 import org.orienteer.core.method.OMethod;
 import org.orienteer.core.method.filters.PlaceFilter;
 import org.orienteer.core.method.filters.WidgetTypeFilter;
+import org.orienteer.core.util.CommonUtils;
 import org.orienteer.logger.OLogger;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IOAuthReciever;
 import org.orienteer.oposter.model.IPlatformApp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.inject.ProvidedBy;
 
@@ -30,9 +35,14 @@ import com.google.inject.ProvidedBy;
 @DAOOClass(value = IOkChannel.CLASS_NAME, orderOffset = 100)
 public interface IOkChannel extends IChannel, IOAuthReciever {
 	public static final String CLASS_NAME = "OPOkChannel";
+	public static final Logger LOG = LoggerFactory.getLogger(IOkChannel.class);
 	
 	public String getGroupId();
 	public void setGroupId(String value);
+	
+	public String getUserId();
+	public void setUserId(String value);
+	
 	
 	public String getAccessToken();
 	public void setAccessToken(String value);
@@ -62,6 +72,8 @@ public interface IOkChannel extends IChannel, IOAuthReciever {
 			IOkApp okApp = (IOkApp) app;
 			try(OAuth20Service service = okApp.getService(this)) {
 				setAccessToken(service.getAccessToken(code).getAccessToken());
+				JsonNode response = okApp.invokeOKMethod(service, getAccessToken(), Verb.GET, "users.getCurrentUser", null, null);
+				setUserId(response.get("uid").asText());
 				DAO.save(this);
 			}
 		}

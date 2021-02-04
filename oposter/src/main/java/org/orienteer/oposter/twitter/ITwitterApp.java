@@ -18,10 +18,12 @@ import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IImageAttachment;
 import org.orienteer.oposter.model.IPlatformApp;
+import org.orienteer.oposter.model.IPosting;
 import org.orienteer.oposter.web.OAuthCallbackResource;
 
 import com.github.redouane59.twitter.TwitterClient;
 import com.github.redouane59.twitter.dto.tweet.MediaCategory;
+import com.github.redouane59.twitter.dto.tweet.Tweet;
 import com.github.redouane59.twitter.signature.TwitterCredentials;
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -49,36 +51,36 @@ public interface ITwitterApp extends IPlatformApp {
 	
 
 	@Override
-	public default boolean send(IChannel channel, IContent content) {
-		if(channel instanceof ITwitterAccount) {
-			ITwitterAccount account = (ITwitterAccount) channel;
-			String accessToken = account.getAccessToken();
-			String accessTokenSecret = account.getAccessTokenSecret();
-			if(Strings.isNullOrEmpty(accessToken) || Strings.isNullOrEmpty(accessTokenSecret)) 
-				throw new WicketRuntimeException("Please authentificate first with twitter");
-			TwitterClient client = new TwitterClient(
-											new TwitterCredentials(getApiKey(),
-																   getApiSecretKey(),
-																   accessToken,
-																   accessTokenSecret));
-			if(content.hasImages()) {
-				List<IImageAttachment> images = content.getImages();
-				List<String> mediaIds = new ArrayList<String>();
-				try {
-					for(int i=0; i<images.size() && i<4; i++) { //Twitter supports only 4 images
-						mediaIds.add(client.uploadMedia(images.get(i).asFile(), MediaCategory.TWEET_IMAGE).getMediaId());
-					}
-				} catch (IOException e) {
-					//Just log and allow to send whatever was already uploaded
-					OLogger.log(e, DAO.asDocument(channel).getIdentity().toString());
+	public default IPosting send(IChannel channel, IContent content) throws Exception {
+		ITwitterAccount account = checkChannelType(channel, ITwitterAccount.class);
+		String accessToken = account.getAccessToken();
+		String accessTokenSecret = account.getAccessTokenSecret();
+		if(Strings.isNullOrEmpty(accessToken) || Strings.isNullOrEmpty(accessTokenSecret)) 
+			throw new WicketRuntimeException("Please authentificate first with twitter");
+		TwitterClient client = new TwitterClient(
+										new TwitterCredentials(getApiKey(),
+															   getApiSecretKey(),
+															   accessToken,
+															   accessTokenSecret));
+		Tweet tweet;
+		if(content.hasImages()) {
+			List<IImageAttachment> images = content.getImages();
+			List<String> mediaIds = new ArrayList<String>();
+			try {
+				for(int i=0; i<images.size() && i<4; i++) { //Twitter supports only 4 images
+					mediaIds.add(client.uploadMedia(images.get(i).asFile(), MediaCategory.TWEET_IMAGE).getMediaId());
 				}
-				client.postTweet(content.getContent(), null, Joiner.on(',').join(mediaIds));
-			} else {
-				client.postTweet(content.getContent());
+			} catch (IOException e) {
+				//Just log and allow to send whatever was already uploaded
+				OLogger.log(e, DAO.asDocument(channel).getIdentity().toString());
 			}
-			return true;
+			tweet = client.postTweet(content.getContent(), null, Joiner.on(',').join(mediaIds));
+		} else {
+			tweet = client.postTweet(content.getContent());
 		}
-		return false;
+		return IPosting.createFor(channel, content)
+							.setExternalPostingId(tweet.getId())
+							.setUrl("https://twitter.com/%s/status/%s", tweet.getAuthorId(), tweet.getId());
 	}
 	
 	public default OAuth10aService getOAuthService(ITwitterAccount account) {

@@ -14,9 +14,13 @@ import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IImageAttachment;
 import org.orienteer.oposter.model.IPlatformApp;
+import org.orienteer.oposter.model.IPosting;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.inject.ProvidedBy;
 import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.InputMedia;
 import com.pengrad.telegrambot.model.request.InputMediaPhoto;
 import com.pengrad.telegrambot.request.BaseRequest;
@@ -24,6 +28,8 @@ import com.pengrad.telegrambot.request.SendMediaGroup;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SendPhoto;
 import com.pengrad.telegrambot.response.BaseResponse;
+import com.pengrad.telegrambot.response.MessagesResponse;
+import com.pengrad.telegrambot.response.SendResponse;
 
 /**
  * {@link IPlatformApp} for Telegram
@@ -31,6 +37,7 @@ import com.pengrad.telegrambot.response.BaseResponse;
 @ProvidedBy(ODocumentWrapperProvider.class)
 @DAOOClass(value = ITelegramBot.CLASS_NAME, orderOffset = 100)
 public interface ITelegramBot extends IPlatformApp {
+	public static final Logger LOG = LoggerFactory.getLogger(ITelegramBot.class);
 	public static final String CLASS_NAME = "OPTelegramBot";
 	
 	@DAOField(notNull = true)
@@ -38,12 +45,17 @@ public interface ITelegramBot extends IPlatformApp {
 	public void setToken(String value);
 	
 	@Override
-	public default boolean send (IChannel channel, IContent content) {
-		if(channel instanceof ITelegramChannel) {
+	public default IPosting send (IChannel channel, IContent content) {
+			ITelegramChannel tChannel = checkChannelType(channel, ITelegramChannel.class);
 			TelegramBot bot = getTelegramBot();
-			bot.execute(prepareRequest((ITelegramChannel)channel, content));
-			return true;
-		} else return false;
+			BaseResponse response = bot.execute(prepareRequest(tChannel, content));
+			Message publishedMessage = extractMessage(response);
+			LOG.info("Message to generate link to: "+publishedMessage);
+			if(publishedMessage!=null) {
+				return IPosting.createFor(tChannel, content)
+									.setExternalPostingId(publishedMessage.messageId())
+									.setUrl("https://t.me/%s/%s", publishedMessage.chat().title(), publishedMessage.messageId());
+			} else throw new IllegalStateException("Unknown response recieved from telegram: "+response);
 	}
 	
 	public default BaseRequest<?, ?> prepareRequest(ITelegramChannel channel, IContent content) {
@@ -60,6 +72,15 @@ public interface ITelegramBot extends IPlatformApp {
 			photosToSend[0].caption(content.getContent());
 			return new SendMediaGroup(channel.getTelegramChatId(), photosToSend);
 		}
+	}
+	
+	public default Message extractMessage(BaseResponse response) {
+		if(response instanceof SendResponse) {
+			return ((SendResponse)response).message();
+		} else if (response instanceof MessagesResponse) {
+			return ((MessagesResponse)response).messages()[0];
+		}
+		return null;
 	}
 	
 	public default TelegramBot getTelegramBot() {

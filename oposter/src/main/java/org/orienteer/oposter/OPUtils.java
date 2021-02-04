@@ -4,6 +4,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import org.apache.wicket.WicketRuntimeException;
+import org.orienteer.vuecket.VueSettings;
+import org.orienteer.vuecket.util.VuecketUtils;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.experimental.UtilityClass;
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -27,5 +35,13 @@ public class OPUtils {
         }
 
         return data;
+    }
+    
+    public static JsonNode toJsonNode(String json) {
+    	return VuecketUtils.toJsonNode(json);
+	}
+    
+    public static ObjectMapper getObjectMapper() {
+    	return VueSettings.get().getObjectMapper();
     }
 }

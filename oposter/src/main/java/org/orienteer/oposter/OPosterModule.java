@@ -24,6 +24,7 @@ import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IContentPlan;
 import org.orienteer.oposter.model.IPlatformApp;
+import org.orienteer.oposter.model.IPosting;
 import org.orienteer.oposter.ok.IOkChannel;
 import org.orienteer.oposter.ok.IOkApp;
 import org.orienteer.oposter.telegram.ITelegramBot;
@@ -49,7 +50,7 @@ public class OPosterModule extends AbstractOrienteerModule{
 	public static final String PERSPECTIVE_ALIAS = "oposter";
 
 	protected OPosterModule() {
-		super(NAME, 14, PerspectivesModule.NAME, OMailModule.NAME);
+		super(NAME, 15, PerspectivesModule.NAME, OMailModule.NAME);
 	}
 	
 	@Override
@@ -130,6 +131,13 @@ public class OPosterModule extends AbstractOrienteerModule{
 					.field(OPerspectiveItem.PROP_NAME, CommonUtils.toMap("en", "Channels"))
 					.field(OPerspectiveItem.PROP_ICON, FAIconType.link.name())
 					.field(OPerspectiveItem.PROP_URL, "/browse/"+IChannel.CLASS_NAME)
+					.field(OPerspectiveItem.PROP_PERSPECTIVE, perspective)
+					.saveDocument();
+		
+		helper.oDocument(OPerspectiveItem.PROP_ALIAS, "postings")
+					.field(OPerspectiveItem.PROP_NAME, CommonUtils.toMap("en", "Postings"))
+					.field(OPerspectiveItem.PROP_ICON, FAIconType.share_alt.name())
+					.field(OPerspectiveItem.PROP_URL, "/browse/"+IPosting.CLASS_NAME)
 					.field(OPerspectiveItem.PROP_PERSPECTIVE, perspective)
 					.saveDocument();
 	}

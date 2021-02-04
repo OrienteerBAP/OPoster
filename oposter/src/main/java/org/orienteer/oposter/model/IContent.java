@@ -69,6 +69,11 @@ public interface IContent {
 	public List<IImageAttachment> getImages();
 	public void setImages(List<IImageAttachment> value);
 	
+	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TABLE, inverse = "content")
+	public List<IPosting> getPostings();
+	public void setPostings(List<IPosting> value);
+	
+	
 	public default boolean hasImages() {
 		List<IImageAttachment> images = getImages();
 		return images!=null && !images.isEmpty();
@@ -89,11 +94,10 @@ public interface IContent {
 		} else {
 			int errors = 0;
 			for (IChannel iChannel : channels) {
-				try {
-					iChannel.send(this);
-				} catch (Throwable e) {
+				IPosting posting = iChannel.getPlatformApp().sendSafe(iChannel, this);
+				if(!posting.isSuccessful()) {
 					errors++;
-					ctx.showFeedback(FeedbackMessage.ERROR, "content.error.cantsend", Model.of(Throwables.getStackTraceAsString(e)));
+					ctx.showFeedback(FeedbackMessage.ERROR, "content.error.cantsend", Model.of(posting.getMessage()));
 				}
 			}
 			if(errors==0) ctx.showFeedback(FeedbackMessage.INFO, "content.info.wassent", null);
