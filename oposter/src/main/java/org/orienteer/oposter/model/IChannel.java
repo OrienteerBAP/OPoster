@@ -16,6 +16,7 @@ import org.orienteer.core.method.OFilter;
 import org.orienteer.core.method.OMethod;
 import org.orienteer.core.method.filters.PlaceFilter;
 import org.orienteer.core.method.filters.WidgetTypeFilter;
+import org.orienteer.logger.OLogger;
 
 import com.google.common.base.Throwables;
 import com.google.inject.ProvidedBy;
@@ -73,7 +74,9 @@ public interface IChannel {
 				platformApp.send(this, content);
 				ctx.showFeedback(FeedbackMessage.INFO, "channel.info.testwassent", null);
 			} catch (Exception e) {
-				ctx.showFeedback(FeedbackMessage.ERROR, "content.error.cantsend", Model.of(Throwables.getStackTraceAsString(e)));
+				Throwable rootCause = Throwables.getRootCause(e);
+				ctx.showFeedback(FeedbackMessage.ERROR, "content.error.cantsend", Model.of(rootCause.getMessage()));
+				OLogger.log(rootCause, DAO.asDocument(this).getIdentity().toString());
 			}
 		}
 	}

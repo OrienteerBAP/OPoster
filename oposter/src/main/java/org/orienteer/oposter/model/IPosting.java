@@ -7,6 +7,7 @@ import org.orienteer.core.dao.DAO;
 import org.orienteer.core.dao.DAOField;
 import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.oposter.OPUtils;
 
 import com.google.inject.ProvidedBy;
 import com.orientechnologies.orient.core.metadata.schema.OType;
@@ -57,6 +58,10 @@ public interface IPosting {
 	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TEXTAREA)
 	public String getMessage();
 	public IPosting setMessage(String value);
+	
+	public default String getMessageSummary() {
+		return OPUtils.firstLine(getMessage());
+	}
 	
 	public static IPosting createFor(IChannel channel, IContent content) {
 		IPosting posting = DAO.create(IPosting.class);

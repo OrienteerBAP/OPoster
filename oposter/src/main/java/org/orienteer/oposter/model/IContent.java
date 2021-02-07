@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.util.string.Strings;
 import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
@@ -19,6 +20,7 @@ import org.orienteer.core.method.filters.PlaceFilter;
 import org.orienteer.core.method.filters.WidgetTypeFilter;
 import org.orienteer.oposter.component.attachment.AttachmentsVisualizer;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
 import com.google.inject.ProvidedBy;
 import com.orientechnologies.orient.core.metadata.schema.OType;
@@ -97,7 +99,9 @@ public interface IContent {
 				IPosting posting = iChannel.getPlatformApp().sendSafe(iChannel, this);
 				if(!posting.isSuccessful()) {
 					errors++;
-					ctx.showFeedback(FeedbackMessage.ERROR, "content.error.cantsend", Model.of(posting.getMessage()));
+					ctx.showFeedback(FeedbackMessage.ERROR, 
+										"content.error.cantsend",
+										Model.of(posting.getMessageSummary()));
 				}
 			}
 			if(errors==0) ctx.showFeedback(FeedbackMessage.INFO, "content.info.wassent", null);

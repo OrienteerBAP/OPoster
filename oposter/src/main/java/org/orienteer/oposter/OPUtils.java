@@ -44,4 +44,10 @@ public class OPUtils {
     public static ObjectMapper getObjectMapper() {
     	return VueSettings.get().getObjectMapper();
     }
+    
+    public static String firstLine(String data) {
+    	if(data==null) return null;
+    	int firstBreak = data.indexOf('\n');
+    	return firstBreak<0?data:data.substring(0, firstBreak).trim();
+    }
 }
