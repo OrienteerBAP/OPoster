@@ -159,6 +159,7 @@ Content is universal is can be sent to any supported platforms. But setup of pla
 #### Read More
 
 * [VKontakte Dev Home](https://vk.com/apps?act=manage)
+* [Why wall authorization is too complex?](https://habr.com/ru/post/179953/)
 
 ### Instagram
 

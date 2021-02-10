@@ -1,17 +1,13 @@
 package org.orienteer.oposter;
 
-import org.apache.wicket.model.ResourceModel;
 import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.component.FAIconType;
-import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
 import org.orienteer.core.method.OMethodsManager;
 import org.orienteer.core.module.AbstractOrienteerModule;
 import org.orienteer.core.module.IOrienteerModule;
 import org.orienteer.core.module.PerspectivesModule;
-import org.orienteer.core.module.PerspectivesModule.OPerspective;
-import org.orienteer.core.module.PerspectivesModule.OPerspectiveItem;
-import org.orienteer.core.util.CommonUtils;
+import org.orienteer.core.module.PerspectivesModule.IOPerspective;
 import org.orienteer.core.util.OSchemaHelper;
 import org.orienteer.mail.OMailModule;
 import org.orienteer.oposter.component.attachment.AttachmentsVisualizer;
@@ -25,8 +21,8 @@ import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IContentPlan;
 import org.orienteer.oposter.model.IPlatformApp;
 import org.orienteer.oposter.model.IPosting;
-import org.orienteer.oposter.ok.IOkChannel;
 import org.orienteer.oposter.ok.IOkApp;
+import org.orienteer.oposter.ok.IOkChannel;
 import org.orienteer.oposter.telegram.ITelegramBot;
 import org.orienteer.oposter.telegram.ITelegramChannel;
 import org.orienteer.oposter.twitter.ITwitterAccount;
@@ -38,8 +34,6 @@ import com.orientechnologies.orient.core.db.ODatabaseSession;
 import com.orientechnologies.orient.core.db.OrientDBInternal;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 import com.orientechnologies.orient.core.schedule.OScheduledEvent;
-import com.orientechnologies.orient.core.schedule.OScheduler;
-import com.orientechnologies.orient.core.metadata.schema.OType;
 
 /**
  * {@link IOrienteerModule} for 'oposter' module
@@ -96,50 +90,37 @@ public class OPosterModule extends AbstractOrienteerModule{
 	}
 	
 	protected void installPerspective(OSchemaHelper helper) {
-		helper.oClass(OPerspective.CLASS_NAME)
-				.oDocument(OPerspective.PROP_ALIAS, "oposter")
-					.field(OPerspective.PROP_NAME, CommonUtils.toMap("en", "OPoster"))
-					.field(OPerspective.PROP_ICON, FAIconType.bolt.name())
-					.field(OPerspective.PROP_HOME_URL, "/browse/"+IContentPlan.CLASS_NAME)
-					.saveDocument();
-		ODocument perspective = helper.getODocument();
 		
-		helper.oClass(OPerspectiveItem.CLASS_NAME);
+		IOPerspective perspective = IOPerspective.getOrCreateByAlias("oposter", 
+																	 "perspective.oposter", 
+																	 FAIconType.bolt.name(), 
+																	 "/browse/"+IContentPlan.CLASS_NAME);
 		
-		helper.oDocument(OPerspectiveItem.PROP_ALIAS, "content_plans")
-					.field(OPerspectiveItem.PROP_NAME, CommonUtils.toMap("en", "Content Plans"))
-					.field(OPerspectiveItem.PROP_ICON, FAIconType.bolt.name())
-					.field(OPerspectiveItem.PROP_URL, "/browse/"+IContentPlan.CLASS_NAME)
-					.field(OPerspectiveItem.PROP_PERSPECTIVE, perspective)
-					.saveDocument();
+		perspective.getOrCreatePerspectiveItem("content_plans", 
+											   "perspective.oposter.contentplans",
+											   FAIconType.bolt.name(),
+											   "/browse/"+IContentPlan.CLASS_NAME);
 		
-		helper.oDocument(OPerspectiveItem.PROP_ALIAS, "contens")
-					.field(OPerspectiveItem.PROP_NAME, CommonUtils.toMap("en", "Content"))
-					.field(OPerspectiveItem.PROP_ICON, FAIconType.envelope.name())
-					.field(OPerspectiveItem.PROP_URL, "/browse/"+IContent.CLASS_NAME)
-					.field(OPerspectiveItem.PROP_PERSPECTIVE, perspective)
-					.saveDocument();
+		perspective.getOrCreatePerspectiveItem("contens", 
+											   "perspective.oposter.contents",
+											   FAIconType.envelope.name(),
+											   "/browse/"+IContent.CLASS_NAME);
 		
-		helper.oDocument(OPerspectiveItem.PROP_ALIAS, "platform_appss")
-					.field(OPerspectiveItem.PROP_NAME, CommonUtils.toMap("en", "Platform Apps"))
-					.field(OPerspectiveItem.PROP_ICON, FAIconType.rocket.name())
-					.field(OPerspectiveItem.PROP_URL, "/browse/"+IPlatformApp.CLASS_NAME)
-					.field(OPerspectiveItem.PROP_PERSPECTIVE, perspective)
-					.saveDocument();
+		perspective.getOrCreatePerspectiveItem("platform_appss", 
+											   "perspective.oposter.platformapps",
+											   FAIconType.rocket.name(),
+											   "/browse/"+IPlatformApp.CLASS_NAME);
 		
-		helper.oDocument(OPerspectiveItem.PROP_ALIAS, "channels")
-					.field(OPerspectiveItem.PROP_NAME, CommonUtils.toMap("en", "Channels"))
-					.field(OPerspectiveItem.PROP_ICON, FAIconType.link.name())
-					.field(OPerspectiveItem.PROP_URL, "/browse/"+IChannel.CLASS_NAME)
-					.field(OPerspectiveItem.PROP_PERSPECTIVE, perspective)
-					.saveDocument();
-		
-		helper.oDocument(OPerspectiveItem.PROP_ALIAS, "postings")
-					.field(OPerspectiveItem.PROP_NAME, CommonUtils.toMap("en", "Postings"))
-					.field(OPerspectiveItem.PROP_ICON, FAIconType.share_alt.name())
-					.field(OPerspectiveItem.PROP_URL, "/browse/"+IPosting.CLASS_NAME)
-					.field(OPerspectiveItem.PROP_PERSPECTIVE, perspective)
-					.saveDocument();
+		perspective.getOrCreatePerspectiveItem("channels", 
+											   "perspective.oposter.channels",
+											   FAIconType.link.name(),
+											   "/browse/"+IChannel.CLASS_NAME);
+
+		perspective.getOrCreatePerspectiveItem("postings", 
+											   "perspective.oposter.postings",
+											   FAIconType.share_alt.name(),
+											   "/browse/"+IPosting.CLASS_NAME);
+
 	}
 	
 	@Override

@@ -71,11 +71,9 @@ public interface IVkApp extends IPlatformApp, IOAuthReciever {
 	public String getServiceToken();
 	public void setServiceToken(String value);
 	
-	@DAOField(notNull = true)
 	public Long getDefaultUserId();
 	public void setDefaultUserId(Long value);
 	
-	@DAOField(notNull = true)
 	public String getDefaultUserAccessKey();
 	public void setDefaultUserAccessKey(String value);
 	
@@ -118,7 +116,9 @@ public interface IVkApp extends IPlatformApp, IOAuthReciever {
 		 return new ServiceBuilder(getAppId().toString())
 	                .apiSecret(getAppSecret())
 	                .defaultScope("offline,wall,groups,video,photos") // replace with desired scope
-	                .callback(OAuthCallbackResource.urlFor(reciverDoc))
+//	                .callback(OAuthCallbackResource.urlFor(reciverDoc))
+	                .callback("https://oauth.vk.com/blank.html")
+	                .responseType("token")
 	                .build(VkontakteApi.instance());
 	}
 	

@@ -17,6 +17,7 @@ import org.orienteer.core.method.OFilter;
 import org.orienteer.core.method.OMethod;
 import org.orienteer.core.method.filters.PlaceFilter;
 import org.orienteer.core.method.filters.WidgetTypeFilter;
+import org.orienteer.core.util.CommonUtils;
 import org.orienteer.logger.OLogger;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
@@ -85,6 +86,12 @@ public interface IVkWall extends IChannel, IOAuthReciever {
 			IVkApp vkApp = (IVkApp) app;
 			try(OAuth20Service service = vkApp.getService(this)) {
 				String redirectTo = service.getAuthorizationUrl();
+				/*String redirectTo;
+				if(getOwnerId()!=null && Boolean.TRUE.equals(isCommunity())) {
+					redirectTo = service.getAuthorizationUrl(CommonUtils.toMap("group_ids",getOwnerId().toString()));
+				} else {
+					redirectTo = service.getAuthorizationUrl();
+				}*/
 				throw new RedirectToUrlException(redirectTo);
 			} catch (IOException e) {
 				ctx.showFeedback(FeedbackMessage.ERROR, "error.oauthrequest", Model.of(e.getMessage()));

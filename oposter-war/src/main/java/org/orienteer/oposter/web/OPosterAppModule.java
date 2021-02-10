@@ -48,7 +48,7 @@ public class OPosterAppModule extends AbstractOrienteerModule {
 	
 	protected void changeDefaultPerspective(final ODatabaseSession db) {
 		final PerspectivesModule perspectivesModule = OrienteerWebApplication.get().getServiceInstance(PerspectivesModule.class);
-		perspectivesModule.getPerspectiveByAliasAsDocument(db, OPosterModule.PERSPECTIVE_ALIAS).ifPresent((p) -> {
+		perspectivesModule.getPerspectiveByAliasAsDocument(OPosterModule.PERSPECTIVE_ALIAS).ifPresent((p) -> {
 			for(ODocument role : db.getMetadata().getSecurity().getAllRoles()) {
 				perspectivesModule.updateUserPerspective(role, p);
 			}
