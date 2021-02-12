@@ -9,6 +9,7 @@ import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.flow.RedirectToUrlException;
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
@@ -51,7 +52,7 @@ import com.vk.api.sdk.queries.wall.WallPostQuery;
  * {@link IPlatformApp} for VKontakte 
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IVkApp.CLASS_NAME, orderOffset = 100)
+@DAOOClass(value = IVkApp.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
 public interface IVkApp extends IPlatformApp, IOAuthReciever {
 	
 	public static final MetaDataKey<VkApiClient> VK_APP_KEY = new MetaDataKey<VkApiClient>() {};

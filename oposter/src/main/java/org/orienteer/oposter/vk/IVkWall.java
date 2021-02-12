@@ -6,6 +6,7 @@ import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.cycle.RequestCycle;
 import org.apache.wicket.request.flow.RedirectToUrlException;
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.dao.DAO;
@@ -33,7 +34,7 @@ import com.vk.api.sdk.client.actors.UserActor;
  * {@link IChannel} for VKontakte 
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IVkWall.CLASS_NAME, orderOffset = 100)
+@DAOOClass(value = IVkWall.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
 public interface IVkWall extends IChannel, IOAuthReciever {
 	public static final String CLASS_NAME = "OPVkWall";
 	

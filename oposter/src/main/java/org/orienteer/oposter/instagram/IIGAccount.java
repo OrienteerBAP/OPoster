@@ -1,6 +1,7 @@
 package org.orienteer.oposter.instagram;
 
 import org.joor.Reflect;
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
 import org.orienteer.core.dao.DAOField;
@@ -23,7 +24,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * {@link IChannel} which represents Account in Instagram
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IIGAccount.CLASS_NAME, orderOffset = 100)
+@DAOOClass(value = IIGAccount.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
 public interface IIGAccount extends IChannel {
 	public static final String CLASS_NAME = "OPIGAccount";
 	public static final Logger LOG = LoggerFactory.getLogger(IIGAccount.class);

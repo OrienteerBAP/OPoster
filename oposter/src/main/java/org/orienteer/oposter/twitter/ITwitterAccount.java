@@ -8,6 +8,7 @@ import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.flow.RedirectToUrlException;
 import org.apache.wicket.request.http.WebRequest;
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.OrienteerWebSession;
 import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
@@ -36,7 +37,7 @@ import com.google.inject.ProvidedBy;
  * {@link IChannel} which represents twitter account
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = ITwitterAccount.CLASS_NAME, orderOffset = 100)
+@DAOOClass(value = ITwitterAccount.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
 public interface ITwitterAccount extends IChannel, IOAuthReciever {
 	public static final String CLASS_NAME = "OPTwitterAccount";
 	public static final MetaDataKey<OAuth1RequestToken> REQUEST_TOKEN_KEY = new MetaDataKey<OAuth1RequestToken>() {};

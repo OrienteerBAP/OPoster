@@ -1,6 +1,7 @@
 package org.orienteer.oposter.facebook;
 
 import org.apache.wicket.request.flow.RedirectToUrlException;
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
@@ -30,7 +31,7 @@ import com.restfb.types.Page;
  * {@link IChannel} for Facebook
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IFacebookConnection.CLASS_NAME, orderOffset = 100)
+@DAOOClass(value = IFacebookConnection.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
 public interface IFacebookConnection extends IChannel, IOAuthReciever{
 	public static final String CLASS_NAME = "OPFacebookConnection";
 	

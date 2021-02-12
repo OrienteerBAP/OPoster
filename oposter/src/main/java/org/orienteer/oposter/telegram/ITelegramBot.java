@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.wicket.MetaDataKey;
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.dao.DAO;
 import org.orienteer.core.dao.DAOField;
@@ -35,7 +36,7 @@ import com.pengrad.telegrambot.response.SendResponse;
  * {@link IPlatformApp} for Telegram
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = ITelegramBot.CLASS_NAME, orderOffset = 100)
+@DAOOClass(value = ITelegramBot.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
 public interface ITelegramBot extends IPlatformApp {
 	public static final Logger LOG = LoggerFactory.getLogger(ITelegramBot.class);
 	public static final String CLASS_NAME = "OPTelegramBot";

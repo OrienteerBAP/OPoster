@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.util.Strings;
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
 import org.orienteer.core.dao.DAOField;
@@ -44,7 +45,7 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
  * {@link IPlatformApp} for Odnoklassniki 
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IOkApp.CLASS_NAME, orderOffset = 100)
+@DAOOClass(value = IOkApp.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
 public interface IOkApp extends IPlatformApp {
 	public static final Logger LOG = LoggerFactory.getLogger(IOkApp.class);
 	public static final String CLASS_NAME = "OPOkApp";

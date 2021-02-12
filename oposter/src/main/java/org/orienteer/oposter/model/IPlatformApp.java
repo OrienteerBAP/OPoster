@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.wicket.util.lang.Exceptions;
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
 import org.orienteer.core.dao.DAOField;
@@ -18,7 +19,7 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
  * Class which holds configuration about connectivity to some social media
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IPlatformApp.CLASS_NAME,
+@DAOOClass(value = IPlatformApp.CLASS_NAME, domain = OClassDomain.BUSINESS,
            isAbstract = true,
            displayable = {"name", "description"})
 public interface IPlatformApp {

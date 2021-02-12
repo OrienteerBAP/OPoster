@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.flow.RedirectToUrlException;
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.dao.DAO;
@@ -32,7 +33,7 @@ import com.google.inject.ProvidedBy;
  * {@link IChannel} which user, group or page in Odnoklassniki
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IOkChannel.CLASS_NAME, orderOffset = 100)
+@DAOOClass(value = IOkChannel.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
 public interface IOkChannel extends IChannel, IOAuthReciever {
 	public static final String CLASS_NAME = "OPOkChannel";
 	public static final Logger LOG = LoggerFactory.getLogger(IOkChannel.class);

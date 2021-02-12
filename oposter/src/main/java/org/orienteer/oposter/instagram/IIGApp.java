@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
 import org.orienteer.oposter.model.IChannel;
@@ -27,7 +28,7 @@ import com.google.inject.ProvidedBy;
  * {@link IPlatformApp} for Instagram: no configuration - can be single for all IG Accounts
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IIGApp.CLASS_NAME, orderOffset = 100)
+@DAOOClass(value = IIGApp.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
 public interface IIGApp extends IPlatformApp{
 	public static final String CLASS_NAME = "OPIGApp";
 	public static final Logger LOG = LoggerFactory.getLogger(IIGApp.class);

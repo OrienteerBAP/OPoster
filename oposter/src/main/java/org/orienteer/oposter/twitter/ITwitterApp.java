@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.wicket.MetaDataKey;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.util.crypt.StringUtils;
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
@@ -37,7 +38,7 @@ import com.google.inject.ProvidedBy;
  * key and secret key configured on app document
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = ITwitterApp.CLASS_NAME, orderOffset = 100)
+@DAOOClass(value = ITwitterApp.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
 public interface ITwitterApp extends IPlatformApp {
 	public static final String CLASS_NAME = "OPTwitterApp";
 	

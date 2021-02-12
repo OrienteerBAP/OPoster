@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.model.Model;
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
@@ -25,7 +26,7 @@ import com.google.inject.ProvidedBy;
  * Channel to send content to 
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IChannel.CLASS_NAME, 
+@DAOOClass(value = IChannel.CLASS_NAME, domain = OClassDomain.BUSINESS,
            isAbstract = true,
            parentProperty = "platformApp",
            displayable = {"name", "url", "description", "platformApp"})

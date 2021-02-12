@@ -3,6 +3,7 @@ package org.orienteer.oposter.facebook;
 import java.util.Date;
 import java.util.List;
 
+import org.orienteer.core.OClassDomain;
 import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
@@ -30,7 +31,7 @@ import com.restfb.Version;
  * {@link IPlatformApp} for Facebook 
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IFacebookApp.CLASS_NAME, orderOffset = 100)
+@DAOOClass(value = IFacebookApp.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
 public interface IFacebookApp extends IPlatformApp{
 	public static final String CLASS_NAME = "OPFacebookApp";
 	
