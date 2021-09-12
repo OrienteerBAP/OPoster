@@ -17,4 +17,4 @@ build.cmd
 **/.idea/
 **/*.iml
 **/*.log
-!oposter-war\target\oposter-war.war
+!oposter-war/target/oposter-war.war
