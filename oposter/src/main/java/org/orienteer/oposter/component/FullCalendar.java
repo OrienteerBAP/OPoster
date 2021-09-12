@@ -13,9 +13,9 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.util.io.IClusterable;
 import org.orienteer.vuecket.VueComponent;
 import org.orienteer.vuecket.VueSettings;
-import org.orienteer.vuecket.VueSettings.INPMPackageProvider;
 import org.orienteer.vuecket.descriptor.VueNpm;
 import org.orienteer.vuecket.method.IVuecketMethod.Context;
+import org.orienteer.vuecket.npmprovider.INPMPackageProvider;
 import org.orienteer.vuecket.method.JsFunction;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -92,7 +92,7 @@ public class FullCalendar extends VueComponent<FullCalendar.Options> {
 	@Override
 	protected void onInitialize() {
 		super.onInitialize();
-		dataFiberBuilder("options").property().build();
+		dataFiberBuilder("options").bindToProperty().init().bind();
 	}
 	
 	@Override

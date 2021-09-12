@@ -54,18 +54,24 @@ public class OPosterModule extends AbstractOrienteerModule{
 		DAO.describe(helper, IContentPlan.class,
 							 IContent.class,
 							 IChannel.class,
-							 IPlatformApp.class);
-		DAO.describe(helper, ITelegramChannel.class, 
-							 ITelegramBot.class);
-		DAO.describe(helper, IFacebookConnection.class,
-							 IFacebookApp.class);
-		DAO.describe(helper, IVkWall.class,
-							 IVkApp.class);
-		DAO.describe(helper, IIGApp.class,
-							 IIGAccount.class);
-		DAO.describe(helper, ITwitterApp.class,
-							 ITwitterAccount.class);
-		DAO.describe(helper, IOkApp.class,
+							 IPlatformApp.class,
+							 // Telegram
+							 ITelegramChannel.class, 
+							 ITelegramBot.class,
+							 //Facebook
+							 IFacebookConnection.class,
+							 IFacebookApp.class,
+							 //VKontakte
+							 IVkWall.class,
+							 IVkApp.class,
+							 //Instagram
+							 IIGApp.class,
+							 IIGAccount.class,
+							 //Twitter
+							 ITwitterApp.class,
+							 ITwitterAccount.class,
+							 //Odnoklassniki
+							 IOkApp.class,
 				 			 IOkChannel.class);
 		
 		helper.oClass("OFunction")

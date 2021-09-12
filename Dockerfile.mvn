@@ -1,0 +1,3 @@
+FROM orienteer/orienteer:latest
+COPY oposter-war/target/oposter-war.war ${JETTY_BASE}/webapps/ROOT.war
+COPY orienteer.properties ${ORIENTEER_HOME}
