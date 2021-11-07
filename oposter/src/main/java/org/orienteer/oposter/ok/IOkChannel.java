@@ -9,8 +9,8 @@ import org.orienteer.core.OClassDomain;
 import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
 import org.orienteer.core.method.IMethodContext;
 import org.orienteer.core.method.OFilter;
 import org.orienteer.core.method.OMethod;
@@ -21,6 +21,7 @@ import org.orienteer.logger.OLogger;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IOAuthReciever;
 import org.orienteer.oposter.model.IPlatformApp;
+import org.orienteer.transponder.annotation.EntityType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,8 @@ import com.google.inject.ProvidedBy;
  * {@link IChannel} which user, group or page in Odnoklassniki
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IOkChannel.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
+@EntityType(value = IOkChannel.CLASS_NAME, orderOffset = 100)
+@OrienteerOClass(domain = OClassDomain.SPECIFICATION)
 public interface IOkChannel extends IChannel, IOAuthReciever {
 	public static final String CLASS_NAME = "OPOkChannel";
 	public static final Logger LOG = LoggerFactory.getLogger(IOkChannel.class);

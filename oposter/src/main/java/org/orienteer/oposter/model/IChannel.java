@@ -9,15 +9,18 @@ import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
+import org.orienteer.core.dao.OrienteerOProperty;
 import org.orienteer.core.method.IMethodContext;
 import org.orienteer.core.method.OFilter;
 import org.orienteer.core.method.OMethod;
 import org.orienteer.core.method.filters.PlaceFilter;
 import org.orienteer.core.method.filters.WidgetTypeFilter;
 import org.orienteer.logger.OLogger;
+import org.orienteer.transponder.annotation.EntityProperty;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.orientdb.OrientDBProperty;
 
 import com.google.common.base.Throwables;
 import com.google.inject.ProvidedBy;
@@ -26,33 +29,37 @@ import com.google.inject.ProvidedBy;
  * Channel to send content to 
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IChannel.CLASS_NAME, domain = OClassDomain.BUSINESS,
-           isAbstract = true,
-           parentProperty = "platformApp",
-           displayable = {"name", "url", "description", "platformApp"})
+@EntityType(value = IChannel.CLASS_NAME, isAbstract = true)
+@OrienteerOClass(domain = OClassDomain.BUSINESS,
+					parentProperty = "platformApp",
+					displayable = {"name", "url", "description", "platformApp"})
 public interface IChannel {
 	public static final String CLASS_NAME = "OPChannel";
 	
 	public String getName();
 	public void setName(String name);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_URL_LINK)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_URL_LINK)
 	public String getUrl();
 	public void setUrl(String value);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TEXTAREA)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_TEXTAREA)
 	public String getDescription();
 	public void setDescription(String value);
 	
-	@DAOField(inverse = "channels", notNull = true, visualization = UIVisualizersRegistry.VISUALIZER_LISTBOX)
+	@EntityProperty(inverse = "channels")
+	@OrientDBProperty(notNull = true)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_LISTBOX)
 	public IPlatformApp getPlatformApp();
 	public void setPlatformApp(IPlatformApp value);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TABLE, inverse = "channels")
+	@EntityProperty(inverse = "channels")
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_TABLE)
 	public List<IContent> getContent();
 	public void setContent(List<IContent> value);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TABLE, inverse = "channel")
+	@EntityProperty(inverse = "channel")
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_TABLE)
 	public List<IPosting> getPostings();
 	public void setPostings(List<IPosting> value);
 	

@@ -10,9 +10,8 @@ import org.orienteer.core.OClassDomain;
 import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
 import org.orienteer.core.method.IMethodContext;
 import org.orienteer.core.method.OFilter;
 import org.orienteer.core.method.OMethod;
@@ -24,6 +23,9 @@ import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IOAuthReciever;
 import org.orienteer.oposter.model.IPlatformApp;
+import org.orienteer.transponder.annotation.DefaultValue;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.orientdb.OrientDBProperty;
 
 import com.github.scribejava.core.oauth.OAuth20Service;
 import com.google.common.base.Throwables;
@@ -34,16 +36,18 @@ import com.vk.api.sdk.client.actors.UserActor;
  * {@link IChannel} for VKontakte 
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IVkWall.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
+@EntityType(value = IVkWall.CLASS_NAME, orderOffset = 100)
+@OrienteerOClass(domain = OClassDomain.SPECIFICATION)
 public interface IVkWall extends IChannel, IOAuthReciever {
 	public static final String CLASS_NAME = "OPVkWall";
 	
 	public Long getOwnerId();
 	public void setOwnerId(Long value);
 	
-	@DAOField(defaultValue = "true")
-	public Boolean isCommunity();
-	public void setCommunity(Boolean value);
+	@OrientDBProperty(defaultValue = "true")
+	@DefaultValue("true")
+	public boolean isCommunity();
+	public void setCommunity(boolean value);
 	
 	public Long getUserId();
 	public void setUserId(Long value);
@@ -53,7 +57,7 @@ public interface IVkWall extends IChannel, IOAuthReciever {
 	
 	public default Long getAdjustedOwnerId() {
 		Long ownerId = getOwnerId();
-		if(ownerId!=null && Boolean.TRUE.equals(isCommunity())) return -ownerId;
+		if(ownerId!=null && isCommunity()) return -ownerId;
 		else return ownerId;
 	}
 	

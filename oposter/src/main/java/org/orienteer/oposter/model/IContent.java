@@ -10,15 +10,18 @@ import org.apache.wicket.util.string.Strings;
 import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
+import org.orienteer.core.dao.OrienteerOProperty;
 import org.orienteer.core.method.IMethodContext;
 import org.orienteer.core.method.OFilter;
 import org.orienteer.core.method.OMethod;
 import org.orienteer.core.method.filters.PlaceFilter;
 import org.orienteer.core.method.filters.WidgetTypeFilter;
 import org.orienteer.oposter.component.attachment.AttachmentsVisualizer;
+import org.orienteer.transponder.annotation.EntityProperty;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.orientdb.OrientDBProperty;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
@@ -29,28 +32,28 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
  * Content to be distributed to channels
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IContent.CLASS_NAME, 
-		   parentProperty = "contentPlan",
-		   displayable = {"title", "when", "published", "created", "contentPlan", "channels"})
+@EntityType(value = IContent.CLASS_NAME)
+@OrienteerOClass(parentProperty = "contentPlan",
+		   			displayable = {"title", "when", "published", "created", "contentPlan", "channels"})
 public interface IContent {
 	public static final String CLASS_NAME = "OPContent";
 	
 	public String getTitle();
 	public void setTitle(String title);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TEXTAREA)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_TEXTAREA)
 	public String getContent();
 	public void setContent(String value);
 	
-	@DAOField(type = OType.DATETIME)
+	@OrientDBProperty(type = OType.DATETIME)
 	public Date getWhen();
 	public void setWhen(Date value);
 	
-	@DAOField(defaultValue = "false")
-	public Boolean isPublished();
-	public void setPublished(Boolean published);
+	@OrientDBProperty(defaultValue = "false")
+	public boolean isPublished();
+	public void setPublished(boolean published);
 	
-	@DAOField(type = OType.DATETIME, defaultValue = "sysdate()", readOnly = true)
+	@OrientDBProperty(type = OType.DATETIME, defaultValue = "sysdate()", readOnly = true)
 	public Date getCreated();
 	public void setCreated(Date value);
 	
@@ -59,19 +62,22 @@ public interface IContent {
 		setPublished(true);
 	}
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_SUGGEST, inverse = "content")
+	@EntityProperty(inverse = "content")
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_SUGGEST)
 	public List<IChannel> getChannels();
 	public void setChannels(List<IChannel> value);
 	
-	@DAOField(inverse = "content")
+	@EntityProperty(inverse = "content")
 	public IContentPlan getContentPlan();
 	public void setContentPlan(IContentPlan value);
 
-	@DAOField(inverse = "content", visualization = AttachmentsVisualizer.NAME)
+	@EntityProperty(inverse = "content")
+	@OrienteerOProperty(visualization = AttachmentsVisualizer.NAME)
 	public List<IImageAttachment> getImages();
 	public void setImages(List<IImageAttachment> value);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TABLE, inverse = "content")
+	@EntityProperty(inverse = "content")
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_TABLE)
 	public List<IPosting> getPostings();
 	public void setPostings(List<IPosting> value);
 	

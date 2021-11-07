@@ -4,10 +4,13 @@ import java.util.Date;
 
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
+import org.orienteer.core.dao.OrienteerOProperty;
 import org.orienteer.oposter.OPUtils;
+import org.orienteer.transponder.annotation.EntityProperty;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.orientdb.OrientDBProperty;
 
 import com.google.inject.ProvidedBy;
 import com.orientechnologies.orient.core.metadata.schema.OType;
@@ -16,30 +19,30 @@ import com.orientechnologies.orient.core.metadata.schema.OType;
  * {@link IPosting} is an DAO class for storing of facts of postings to a social networks
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IPosting.CLASS_NAME,
-				displayable = {"content", "channel", "posted", "successful", "url"},
+@EntityType(IPosting.CLASS_NAME)
+@OrienteerOClass(displayable = {"content", "channel", "posted", "successful", "url"},
 				nameProperty = "content",
 				parentProperty = "channel")
 public interface IPosting {
 	public static final String CLASS_NAME = "OPPosting";
 	
-	@DAOField(inverse = "postings")
+	@EntityProperty(inverse = "postings")
 	public IContent getContent();
 	public IPosting setContent(IContent value);
 	
-	@DAOField(inverse = "postings")
+	@EntityProperty(inverse = "postings")
 	public IChannel getChannel();
 	public IPosting setChannel(IChannel value);
 	
-	@DAOField(type = OType.DATETIME, defaultValue = "sysdate()", readOnly = true)
+	@OrientDBProperty(type = OType.DATETIME, defaultValue = "sysdate()", readOnly = true)
 	public Date getPosted();
 	public IPosting setPosted(Date value);
 
-	@DAOField(notNull = true, defaultValue = "true")
+	@OrientDBProperty(notNull = true, defaultValue = "true")
 	public boolean isSuccessful();
 	public IPosting setSuccessful(boolean value);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_URL_LINK)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_URL_LINK)
 	public String getUrl();
 	public IPosting setUrl(String value);
 	
@@ -55,7 +58,7 @@ public interface IPosting {
 		return this;
 	}
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TEXTAREA)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_TEXTAREA)
 	public String getMessage();
 	public IPosting setMessage(String value);
 	

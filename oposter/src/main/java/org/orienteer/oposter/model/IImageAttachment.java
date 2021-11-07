@@ -7,9 +7,10 @@ import java.nio.file.Files;
 import org.apache.tika.Tika;
 import org.apache.wicket.util.string.Strings;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOProperty;
+import org.orienteer.transponder.annotation.EntityProperty;
+import org.orienteer.transponder.annotation.EntityType;
 
 import com.google.common.io.FileBackedOutputStream;
 import com.google.inject.ProvidedBy;
@@ -18,7 +19,7 @@ import com.google.inject.ProvidedBy;
  * OClass for image attachments to a content
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IImageAttachment.CLASS_NAME)
+@EntityType(IImageAttachment.CLASS_NAME)
 public interface IImageAttachment {
 	public static final String CLASS_NAME = "OPImageAttachment";
 	
@@ -34,11 +35,11 @@ public interface IImageAttachment {
 	public Integer getOrder();
 	public void setOrder(Integer value);
 	
-	@DAOField(inverse = "images")
+	@EntityProperty(inverse = "images")
 	public IContent getContent();
 	public void setContent(IContent value);
 	
-	@DAOField(hidden = true)
+	@OrienteerOProperty(hidden = true)
 	public String getTempFilePath();
 	public void setTempFilePath(String value);
 	

@@ -5,14 +5,15 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import org.orienteer.core.OClassDomain;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IImageAttachment;
 import org.orienteer.oposter.model.IPlatformApp;
 import org.orienteer.oposter.model.IPosting;
 import org.orienteer.oposter.vk.IVkApp;
+import org.orienteer.transponder.annotation.EntityType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,8 @@ import com.google.inject.ProvidedBy;
  * {@link IPlatformApp} for Instagram: no configuration - can be single for all IG Accounts
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IIGApp.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
+@EntityType(value = IIGApp.CLASS_NAME, orderOffset = 100)
+@OrienteerOClass(domain = OClassDomain.SPECIFICATION)
 public interface IIGApp extends IPlatformApp{
 	public static final String CLASS_NAME = "OPIGApp";
 	public static final Logger LOG = LoggerFactory.getLogger(IIGApp.class);

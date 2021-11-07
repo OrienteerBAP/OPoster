@@ -14,9 +14,9 @@ import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
+import org.orienteer.core.dao.OrienteerOProperty;
 import org.orienteer.core.method.IMethodContext;
 import org.orienteer.core.method.OFilter;
 import org.orienteer.core.method.OMethod;
@@ -27,6 +27,7 @@ import org.orienteer.core.web.ODocumentPage;
 import org.orienteer.logger.OLogger;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IOAuthReciever;
+import org.orienteer.transponder.annotation.EntityType;
 
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
@@ -37,7 +38,8 @@ import com.google.inject.ProvidedBy;
  * {@link IChannel} which represents twitter account
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = ITwitterAccount.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
+@EntityType(value = ITwitterAccount.CLASS_NAME, orderOffset = 100)
+@OrienteerOClass(domain = OClassDomain.SPECIFICATION)
 public interface ITwitterAccount extends IChannel, IOAuthReciever {
 	public static final String CLASS_NAME = "OPTwitterAccount";
 	public static final MetaDataKey<OAuth1RequestToken> REQUEST_TOKEN_KEY = new MetaDataKey<OAuth1RequestToken>() {};
@@ -45,7 +47,7 @@ public interface ITwitterAccount extends IChannel, IOAuthReciever {
 	public String getAccessToken();
 	public void setAccessToken(String value);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_PASSWORD)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_PASSWORD)
 	public String getAccessTokenSecret();
 	public void setAccessTokenSecret(String value);
 	

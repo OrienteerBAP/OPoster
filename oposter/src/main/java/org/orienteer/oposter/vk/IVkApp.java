@@ -14,9 +14,8 @@ import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.component.BootstrapType;
 import org.orienteer.core.component.FAIconType;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
 import org.orienteer.core.method.IMethodContext;
 import org.orienteer.core.method.OFilter;
 import org.orienteer.core.method.OMethod;
@@ -30,6 +29,8 @@ import org.orienteer.oposter.model.IOAuthReciever;
 import org.orienteer.oposter.model.IPlatformApp;
 import org.orienteer.oposter.model.IPosting;
 import org.orienteer.oposter.web.OAuthCallbackResource;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.orientdb.OrientDBProperty;
 
 import com.github.scribejava.apis.VkontakteApi;
 import com.github.scribejava.core.builder.ServiceBuilder;
@@ -52,23 +53,24 @@ import com.vk.api.sdk.queries.wall.WallPostQuery;
  * {@link IPlatformApp} for VKontakte 
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IVkApp.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
+@EntityType(value = IVkApp.CLASS_NAME, orderOffset = 100)
+@OrienteerOClass(domain = OClassDomain.SPECIFICATION)
 public interface IVkApp extends IPlatformApp, IOAuthReciever {
 	
 	public static final MetaDataKey<VkApiClient> VK_APP_KEY = new MetaDataKey<VkApiClient>() {};
 	
 	public static final String CLASS_NAME = "OPVkApp";
 	
-	@DAOField(notNull = true)
+	@OrientDBProperty(notNull = true)
 	public Integer getAppId();
 	public void setAppId(Integer value);
 	
 	
-	@DAOField(notNull = true)
+	@OrientDBProperty(notNull = true)
 	public String getAppSecret();
 	public void setAppSecret(String value);
 	
-	@DAOField(notNull = true)
+	@OrientDBProperty(notNull = true)
 	public String getServiceToken();
 	public void setServiceToken(String value);
 	

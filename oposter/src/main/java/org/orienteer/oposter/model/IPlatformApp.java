@@ -7,10 +7,12 @@ import org.apache.wicket.util.lang.Exceptions;
 import org.orienteer.core.OClassDomain;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
+import org.orienteer.core.dao.OrienteerOProperty;
 import org.orienteer.logger.OLogger;
+import org.orienteer.transponder.annotation.EntityProperty;
+import org.orienteer.transponder.annotation.EntityType;
 
 import com.google.inject.ProvidedBy;
 import com.orientechnologies.orient.core.record.impl.ODocument;
@@ -19,20 +21,21 @@ import com.orientechnologies.orient.core.record.impl.ODocument;
  * Class which holds configuration about connectivity to some social media
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IPlatformApp.CLASS_NAME, domain = OClassDomain.BUSINESS,
-           isAbstract = true,
-           displayable = {"name", "description"})
+@EntityType(value = IPlatformApp.CLASS_NAME, isAbstract = true)
+@OrienteerOClass(domain = OClassDomain.BUSINESS,
+           		 displayable = {"name", "description"})
 public interface IPlatformApp {
 	public static final String CLASS_NAME = "OPPlatformApp";
 	
 	public String getName();
 	public void setName(String name);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TEXTAREA)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_TEXTAREA)
 	public String getDescription();
 	public void setDescription(String value);
 	
-	@DAOField(visualization = UIVisualizersRegistry.VISUALIZER_TABLE, inverse = "platformApp")
+	@EntityProperty(inverse = "platformApp")
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_TABLE)
 	public List<IChannel> getChannels();
 	public void setChannels(List<IChannel> value);
 	

@@ -11,9 +11,9 @@ import org.orienteer.core.OClassDomain;
 import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
+import org.orienteer.core.dao.OrienteerOProperty;
 import org.orienteer.logger.OLogger;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
@@ -21,6 +21,8 @@ import org.orienteer.oposter.model.IImageAttachment;
 import org.orienteer.oposter.model.IPlatformApp;
 import org.orienteer.oposter.model.IPosting;
 import org.orienteer.oposter.web.OAuthCallbackResource;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.orientdb.OrientDBProperty;
 
 import com.github.redouane59.twitter.TwitterClient;
 import com.github.redouane59.twitter.dto.tweet.MediaCategory;
@@ -38,15 +40,17 @@ import com.google.inject.ProvidedBy;
  * key and secret key configured on app document
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = ITwitterApp.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
+@EntityType(value = ITwitterApp.CLASS_NAME, orderOffset = 100)
+@OrienteerOClass(domain = OClassDomain.SPECIFICATION)
 public interface ITwitterApp extends IPlatformApp {
 	public static final String CLASS_NAME = "OPTwitterApp";
 	
-	@DAOField(notNull = true)
+	@OrientDBProperty(notNull = true)
 	public String getApiKey();
 	public void setApiKey(String value);
 	
-	@DAOField(notNull = true, visualization = UIVisualizersRegistry.VISUALIZER_PASSWORD)
+	@OrientDBProperty(notNull = true)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_PASSWORD)
 	public String getApiSecretKey();
 	public void setApiSecretKey(String value);
 	

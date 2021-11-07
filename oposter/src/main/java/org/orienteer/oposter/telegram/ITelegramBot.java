@@ -8,14 +8,16 @@ import org.apache.wicket.MetaDataKey;
 import org.orienteer.core.OClassDomain;
 import org.orienteer.core.OrienteerWebApplication;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
 import org.orienteer.oposter.model.IChannel;
 import org.orienteer.oposter.model.IContent;
 import org.orienteer.oposter.model.IImageAttachment;
 import org.orienteer.oposter.model.IPlatformApp;
 import org.orienteer.oposter.model.IPosting;
+import org.orienteer.transponder.annotation.EntityProperty;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.orientdb.OrientDBProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,12 +38,13 @@ import com.pengrad.telegrambot.response.SendResponse;
  * {@link IPlatformApp} for Telegram
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = ITelegramBot.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
+@EntityType(value = ITelegramBot.CLASS_NAME, orderOffset = 100)
+@OrienteerOClass(domain = OClassDomain.SPECIFICATION)
 public interface ITelegramBot extends IPlatformApp {
 	public static final Logger LOG = LoggerFactory.getLogger(ITelegramBot.class);
 	public static final String CLASS_NAME = "OPTelegramBot";
 	
-	@DAOField(notNull = true)
+	@OrientDBProperty(notNull = true)
 	public String getToken();
 	public void setToken(String value);
 	

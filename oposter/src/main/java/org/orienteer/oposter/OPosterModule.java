@@ -51,7 +51,7 @@ public class OPosterModule extends AbstractOrienteerModule{
 	public ODocument onInstall(OrienteerWebApplication app, ODatabaseSession db) {
 		super.onInstall(app, db);
 		OSchemaHelper helper = OSchemaHelper.bind(db);
-		DAO.describe(helper, IContentPlan.class,
+		DAO.define(IContentPlan.class,
 							 IContent.class,
 							 IChannel.class,
 							 IPlatformApp.class,

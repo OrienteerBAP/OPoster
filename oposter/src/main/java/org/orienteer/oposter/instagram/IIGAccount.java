@@ -4,10 +4,12 @@ import org.joor.Reflect;
 import org.orienteer.core.OClassDomain;
 import org.orienteer.core.component.visualizer.UIVisualizersRegistry;
 import org.orienteer.core.dao.DAO;
-import org.orienteer.core.dao.DAOField;
-import org.orienteer.core.dao.DAOOClass;
 import org.orienteer.core.dao.ODocumentWrapperProvider;
+import org.orienteer.core.dao.OrienteerOClass;
+import org.orienteer.core.dao.OrienteerOProperty;
 import org.orienteer.oposter.model.IChannel;
+import org.orienteer.transponder.annotation.EntityType;
+import org.orienteer.transponder.orientdb.OrientDBProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,24 +26,28 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * {@link IChannel} which represents Account in Instagram
  */
 @ProvidedBy(ODocumentWrapperProvider.class)
-@DAOOClass(value = IIGAccount.CLASS_NAME, domain = OClassDomain.SPECIFICATION, orderOffset = 100)
+@EntityType(value = IIGAccount.CLASS_NAME, orderOffset = 100)
+@OrienteerOClass(domain = OClassDomain.SPECIFICATION)
 public interface IIGAccount extends IChannel {
 	public static final String CLASS_NAME = "OPIGAccount";
 	public static final Logger LOG = LoggerFactory.getLogger(IIGAccount.class);
 	
-	@DAOField(notNull = true)
+	@OrientDBProperty(notNull = true)
 	public String getUsername();
 	public void setUsername(String value);
 	
-	@DAOField(notNull = true, visualization = UIVisualizersRegistry.VISUALIZER_PASSWORD)
+	@OrientDBProperty(notNull = true)
+	@OrienteerOProperty(visualization = UIVisualizersRegistry.VISUALIZER_PASSWORD)
 	public String getPassword();
 	public void setPassword(String value);
 	
-	@DAOField(type = OType.CUSTOM, hidden = true)
+	@OrientDBProperty(type = OType.CUSTOM)
+	@OrienteerOProperty(hidden = true)
 	public IGClient getIGClient();
 	public void setIGClient(IGClient value);
 	
-	@DAOField(type = OType.CUSTOM, hidden = true)
+	@OrientDBProperty(type = OType.CUSTOM)
+	@OrienteerOProperty(hidden = true)
 	public SerializableCookieJar getCookieJar();
 	public void setCookieJar(SerializableCookieJar value);
 	
