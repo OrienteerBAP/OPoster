@@ -1,0 +1,11 @@
+Principio de abierto/cerrado (OCP): Este principio establece que las entidades de software
+ (clases, módulos, funciones, etc.) deben estar abiertas para la extensión, pero cerradas para 
+la modificación. En este caso, los métodos onInstall y onUpdate están diseñados para ser sobrescritos, 
+lo que podría violar el principio OCP si se necesita modificar la funcionalidad base en lugar de
+extenderla.
+
+
+2.Principio de abierto/cerrado (OCP): Este principio establece que las entidades de software 
+(clases, módulos, funciones, etc.) deben estar abiertas para la extensión, pero cerradas para
+ la modificación. En este caso, los métodos onInstall y onUpdate están diseñados para ser sobrescritos, 
+lo que podría violar el principio OCP si se necesita modificar la funcionalidad base en lugar de extenderla.
