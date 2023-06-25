@@ -1,0 +1,37 @@
+Para solucionar esta violación del DIP, podrías introducir una interfaz que ambas 
+clases implementen. Esto permitiría a FixedOdnoklassnikiApi depender de una abstracción
+ en lugar de una implementación concreta.
+
+
+public interface IOdnoklassnikiApi {
+    OdnoklassnikiOAuthService createService(String apiKey, String apiSecret, String callback,
+        String defaultScope, String responseType, String userAgent, 
+        HttpClientConfig httpClientConfig, HttpClient httpClient);
+}
+
+public class OdnoklassnikiApi implements IOdnoklassnikiApi {
+    // implementación existente
+}
+
+public class FixedOdnoklassnikiApi implements IOdnoklassnikiApi {
+    // implementación existente
+
+    private static class InstanceHolder {
+        private static final IOdnoklassnikiApi INSTANCE = new FixedOdnoklassnikiApi();
+    }
+
+    public static IOdnoklassnikiApi instance() {
+        return InstanceHolder.INSTANCE;
+    }
+
+    @Override
+    public OdnoklassnikiOAuthService createService(String apiKey, String apiSecret, String callback,
+         String defaultScope, String responseType, String userAgent, 
+        HttpClientConfig httpClientConfig, HttpClient httpClient) {
+        // implementación existente
+    }
+}
+En este ejemplo, tanto OdnoklassnikiApi como FixedOdnoklassnikiApi implementan la interfaz
+ IOdnoklassnikiApi. Esto significa que cualquier código que necesite usar una de estas clases 
+puede depender de la interfaz IOdnoklassnikiApi en lugar de una implementación concreta,
+ lo que está en línea con el DIP.
